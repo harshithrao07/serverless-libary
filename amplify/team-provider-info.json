@@ -1,0 +1,36 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-libraryportal-dev-132202-authRole",
+      "UnauthRoleArn": "arn:aws:iam::252296902626:role/amplify-libraryportal-dev-132202-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::252296902626:role/amplify-libraryportal-dev-132202-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
+      "UnauthRoleName": "amplify-libraryportal-dev-132202-unauthRole",
+      "StackName": "amplify-libraryportal-dev-132202",
+      "StackId": "arn:aws:cloudformation:ap-south-1:252296902626:stack/amplify-libraryportal-dev-132202/721a3c80-c8b2-11ee-9c16-0260ed07d365",
+      "AmplifyAppId": "d3h7yvv3paeq66"
+    },
+    "categories": {
+      "auth": {
+        "libraryportal590f4ae7": {}
+      },
+      "storage": {
+        "bookImages": {}
+      },
+      "function": {
+        "processPayment": {
+          "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
+          "s3Key": "amplify-builds/processPayment-65694779326e6736476f-build.zip"
+        },
+        "createOrder": {
+          "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
+          "s3Key": "amplify-builds/createOrder-4d6a46422f514a48432f-build.zip"
+        }
+      },
+      "api": {
+        "libraryportal": {}
+      }
+    }
+  }
+}
