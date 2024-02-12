@@ -15,7 +15,7 @@
           "additionalAuthenticationProviders": [
             {
               "apiKeyConfig": {
-                "apiKeyExpirationDate": "2025-02-10T17:36:36.386Z",
+                "apiKeyExpirationDate": "2025-02-11T04:51:49.570Z",
                 "apiKeyExpirationDays": 365,
                 "description": "guest user access to books"
               },

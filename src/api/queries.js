@@ -62,24 +62,24 @@ export const getBook = /* GraphQL */ `
   }
 `;
 export const listBooks = /* GraphQL */ `
-  query ListBooks(
-    $filter: ModelBookFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listBooks(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        description
-        image
-        author
-        featured
-        price
-        createdAt
-        updatedAt
-      }
-      nextToken
+query ListBooks(
+  $filter: ModelBookFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listBooks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      description
+      image
+      author
+      featured
+      price
+      createdAt
+      updatedAt
     }
+    nextToken
   }
+}
 `;

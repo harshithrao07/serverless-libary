@@ -23,9 +23,9 @@ const BookProvider = ({ children }) => {
             // Switch authMode to API_KEY for public access
             const { data } = await client.graphql({
                 query: listBooks,
-                authMode: "API_KEY"
+                authMode: "apiKey"
             })
-            console.log(data)
+
             const books = data.listBooks.items;
             const featured = books.filter((book) => {
                 return !!book.featured;
