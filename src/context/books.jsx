@@ -1,8 +1,10 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { v4 as uuidv4 } from "uuid";
 import { generateClient } from 'aws-amplify/api';
 import { listBooks } from "../api/queries";
+import { processOrder } from "../api/mutations";
 
 const BookContext = React.createContext()
 
@@ -16,6 +18,22 @@ const BookProvider = ({ children }) => {
     useEffect(() => {
         fetchBooks();
     }, [])
+
+    const checkout = async (orderDetails) => {
+        const payload = {
+          id: uuidv4(),
+          ...orderDetails
+        };
+        try {
+          await client.graphql({
+            query: processOrder, 
+            variables: { input: payload }
+        });
+          console.log("Order is successful");
+        } catch (err) {
+          console.log(err);
+        }
+      };
 
     const fetchBooks = async () => {
         try {
@@ -39,7 +57,7 @@ const BookProvider = ({ children }) => {
     }
 
     return (
-        <BookContext.Provider value={{ books, featured, loading }}>
+        <BookContext.Provider value={{ books, featured, loading, checkout }}>
             {children}
         </BookContext.Provider>
     )

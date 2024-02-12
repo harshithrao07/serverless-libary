@@ -12,6 +12,9 @@ import Admin from './pages/Admin'
 // Amplify Configurations
 import { Amplify } from 'aws-amplify';
 import config from './amplifyconfiguration.json';
+import Cart from './pages/Cart'
+import Checkout from './pages/Checkout'
+import Error from './pages/Error'
 Amplify.configure(config);
 
 
@@ -23,7 +26,10 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path='books' element={<Books />} />
           <Route path='books/:id' element={<BookDetails />} />
+          <Route path='cart' element={<Cart />} />
+          <Route path='checkout' element={<Checkout />} />
           <Route path='admin' element={<Admin />} />
+          <Route path='*' element={<Error />} />
         </Route>
       </Routes>
     </BrowserRouter>
