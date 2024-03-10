@@ -2,12 +2,15 @@ import React, { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { BookContext } from "../context/books";
 import { CartContext } from "../context/cart";
+import { UserContext } from "../context/user";
+
 
 const BookDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { books } = useContext(BookContext);
   const { addToCart } = useContext(CartContext);
+  const { username } = useContext(UserContext);
 
   const book = books.find((book) => {
     return book.id === id;
@@ -17,6 +20,15 @@ const BookDetails = () => {
   }
 
   const { image: url, title, description, author, price } = book;
+
+  const handleClick = async () => {
+    if (username != "") {
+      addToCart({ ...book, id });
+      navigate("/cart");
+    } else {
+      navigate("/auth?message=You have to login first")
+    }
+  }
 
   return (
     <section className="book-details">
@@ -30,10 +42,7 @@ const BookDetails = () => {
         <h4>Price - $ {price}</h4>
         <button
           className="btn"
-          onClick={() => {
-            addToCart({ ...book, id });
-            navigate("/cart");
-          }}
+          onClick={handleClick}
         >
           Add to Cart
         </button>

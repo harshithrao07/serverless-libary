@@ -56,12 +56,45 @@ type Order
   books: [BookOrder] @connection(keyName: "byOrder", fields: ["id"])
 }
 
+type Cart
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+       # only owner can see his cart
+      { allow: owner, ownerField: "customer" },
+      # allow admins to view cart
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  user: String!
+  items: [CartItem] @connection(keyName: "byCart", fields: ["id"])
+}
+
+type CartItem
+  @model(subscriptions: null)
+  @key(name: "byBook", fields: ["bookID", "cartID"])
+  @key(name: "byCart", fields: ["cartID", "bookID"])
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "cart" },
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  cart: Cart @connection(fields: ["cartID"])
+  cartID: ID!
+  book: Book @connection(fields: ["bookID"])
+  bookID: ID!
+  quantity: Int
+}
+
 enum OrderStatus {
   SUCCESS
   FAILED
 }
 
-input CartItem {
+input CartItemInput {
   id: ID!
   title: String
   image: String
@@ -71,7 +104,7 @@ input CartItem {
 
 input ProcessOrderInput {
   id: ID!
-  cart: [CartItem]
+  cart: [CartItemInput]
   total: Float!
   token: String!
   address: String

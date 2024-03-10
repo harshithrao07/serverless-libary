@@ -252,3 +252,168 @@ export const deleteOrder = /* GraphQL */ `
     }
   }
 `;
+export const createCart = /* GraphQL */ `
+  mutation CreateCart(
+    $input: CreateCartInput!
+    $condition: ModelCartConditionInput
+  ) {
+    createCart(input: $input, condition: $condition) {
+      id
+      user
+      items {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      customer
+      __typename
+    }
+  }
+`;
+export const updateCart = /* GraphQL */ `
+  mutation UpdateCart(
+    $input: UpdateCartInput!
+    $condition: ModelCartConditionInput
+  ) {
+    updateCart(input: $input, condition: $condition) {
+      id
+      user
+      items {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      customer
+      __typename
+    }
+  }
+`;
+export const deleteCart = /* GraphQL */ `
+  mutation DeleteCart(
+    $input: DeleteCartInput!
+    $condition: ModelCartConditionInput
+  ) {
+    deleteCart(input: $input, condition: $condition) {
+      id
+      user
+      items {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      customer
+      __typename
+    }
+  }
+`;
+export const createCartItem = /* GraphQL */ `
+  mutation CreateCartItem(
+    $input: CreateCartItemInput!
+    $condition: ModelCartItemConditionInput
+  ) {
+    createCartItem(input: $input, condition: $condition) {
+      id
+      cart {
+        id
+        user
+        createdAt
+        updatedAt
+        customer
+        __typename
+      }
+      cartID
+      bookID
+      quantity
+      createdAt
+      updatedAt
+      book {
+        id
+        title
+        description
+        image
+        author
+        featured
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      __typename
+    }
+  }
+`;
+export const updateCartItem = /* GraphQL */ `
+  mutation UpdateCartItem(
+    $input: UpdateCartItemInput!
+    $condition: ModelCartItemConditionInput
+  ) {
+    updateCartItem(input: $input, condition: $condition) {
+      id
+      cart {
+        id
+        user
+        createdAt
+        updatedAt
+        customer
+        __typename
+      }
+      cartID
+      bookID
+      quantity
+      createdAt
+      updatedAt
+      book {
+        id
+        title
+        description
+        image
+        author
+        featured
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      __typename
+    }
+  }
+`;
+export const deleteCartItem = /* GraphQL */ `
+  mutation DeleteCartItem(
+    $input: DeleteCartItemInput!
+    $condition: ModelCartItemConditionInput
+  ) {
+    deleteCartItem(input: $input, condition: $condition) {
+      id
+      cart {
+        id
+        user
+        createdAt
+        updatedAt
+        customer
+        __typename
+      }
+      cartID
+      bookID
+      quantity
+      createdAt
+      updatedAt
+      book {
+        id
+        title
+        description
+        image
+        author
+        featured
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      __typename
+    }
+  }
+`;

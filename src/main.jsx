@@ -4,13 +4,14 @@ import App from './App.jsx'
 import './index.css'
 import { BookProvider } from './context/books.jsx'
 import { CartProvider } from './context/cart.jsx'
+import { UserProvider } from './context/user.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BookProvider>
+  <UserProvider>
     <CartProvider>
-      <React.StrictMode>
+      <BookProvider>
         <App />
-      </React.StrictMode>
+      </BookProvider>
     </CartProvider>
-  </BookProvider>
+  </UserProvider>
 )
