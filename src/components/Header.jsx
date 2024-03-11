@@ -4,24 +4,24 @@ import { signOut } from 'aws-amplify/auth';
 import { UserContext } from "../context/user";
 
 const Header = () => {
-  const { currentAuthenticatedUser } = useContext(UserContext)
   const [username, setUsername] = useState("")
+  const [userId, setuserId] = useState("")
   const location = useLocation()
   const navigate = useNavigate()
 
   useEffect(() => {
-    async function getUsername() {
-      const user = await currentAuthenticatedUser();
-      if(user !== undefined) {
-        setUsername(user);
-      }
+    if(localStorage.getItem("username") && localStorage.getItem("userId")) {
+      setUsername(localStorage.getItem("username") );
+      setuserId(localStorage.getItem("userId"))
     }
-
-    getUsername();
   }, [location]);
 
   const handleClick = async () => {
     setUsername("")
+    setuserId("")
+    localStorage.removeItem("username")
+    localStorage.removeItem("userId")
+    localStorage.removeItem("cartId")
     await signOut({ global: true })
     navigate("/")
   }
@@ -41,7 +41,7 @@ const Header = () => {
             username ?
               <>
                 <li>
-                  <Link to="/cart">Cart</Link>
+                  <Link to={`/user/${userId}`}>User</Link>
                 </li>
                 <button onClick={handleClick}>Sign out</button>
               </>

@@ -10,15 +10,17 @@ import { listCarts } from '../api/queries';
 
 const Login = () => {
   const client = generateClient();
-  const { currentAuthenticatedUser } = useContext(UserContext)
-  const [username, setUsername] = useState("")
+  const { currentAuthenticatedUser, findCartID } = useContext(UserContext)
+  const [user, setUser] = useState("")
+  const [userId, setuserId] = useState("")
   const [cart, setCart] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     async function getUsername() {
-      const user = await currentAuthenticatedUser();
-      setUsername(user)
+      await currentAuthenticatedUser();
+      setUser(localStorage.getItem("username"))
+      setuserId(localStorage.getItem("userId"))
     }
 
     getUsername();
@@ -26,16 +28,16 @@ const Login = () => {
 
   useEffect(() => {
     async function generateCart() {
-      if (username) {
+      if (user) {
         const existingCartsResponse  = await client.graphql({
           query: listCarts,
-          variables: { filter: { user: { eq: username } } }
+          variables: { filter: { user: { eq: user } } }
         })
 
         if (existingCartsResponse.data.listCarts.items.length != 1) {
           const newCart = {
             id: uuidv4(),
-            user: username
+            user: user
           };
           const response = await client.graphql({
             query: createCart,
@@ -44,12 +46,13 @@ const Login = () => {
           setCart(newCart); 
         }
 
-        navigate("/cart")
+        await findCartID();
+        navigate(`/user/${userId}`)
       }
     }
 
     generateCart();
-  }, [username])
+  }, [user])
   
   return (
     <div>

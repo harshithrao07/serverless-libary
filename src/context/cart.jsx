@@ -10,7 +10,6 @@ const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false)
-  const { findCartID } = useContext(UserContext)
 
   const client = generateClient();
 
@@ -21,7 +20,7 @@ const CartProvider = ({ children }) => {
         query: listCartItems,
         variables: {
           filter: {
-            cartID: { eq: await findCartID() }
+            cartID: { eq: localStorage.getItem("cartId") }
           }
         }
       });
@@ -32,6 +31,7 @@ const CartProvider = ({ children }) => {
       console.log(error);
     }
   }
+  
   useEffect(() => {
     fetchCartItems();
   }, []);
@@ -59,7 +59,6 @@ const CartProvider = ({ children }) => {
         }
       });
 
-      // Update the local cart only if the mutation was successful
       if (response.data.updateCartItem) {
         const updatedCart = cart.map((item) =>
           item.bookID === bookID ? { ...item, quantity: item.quantity + 1 } : item
@@ -115,30 +114,31 @@ const CartProvider = ({ children }) => {
   const addToCart = async (book) => {
     const { id, title, price, image } = book;
     const cartItem = cart.find((item) => item.bookID === id);
-    const cartID = await findCartID();
-
+    const cartID = localStorage.getItem("cartId");
+    
     if (cartItem) {
-      increaseAmount(id, cartID);
+      increaseAmount(id, cartItem.id);
     } else {
       const newCartItem = {
         cartID: cartID,
         bookID: id,
         quantity: 1
       };
-
+      console.log(newCartItem)
       try {
         const response = await client.graphql({
           query: createCartItem,
           variables: { input: newCartItem }
         });
 
-        // Add the item to the cart only if the mutation was successful
         if (response.data.createCartItem) {
           const updatedCart = [...cart, { id, title, image, price, quantity: 1 }];
           setCart(updatedCart);
         } else {
           console.error('Failed to add item to the cart.');
         }
+
+        await fetchCartItems()
       } catch (error) {
         console.error('Error adding item to cart:', error);
       }
@@ -151,7 +151,7 @@ const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, total, addToCart, increaseAmount, decreaseAmount, clearCart, loading }}
+      value={{ cart, total, addToCart, increaseAmount, decreaseAmount, clearCart, loading, fetchCartItems }}
     >
       {children}
     </CartContext.Provider>

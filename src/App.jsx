@@ -16,6 +16,7 @@ import Error from './pages/Error'
 import { Amplify } from 'aws-amplify';
 import config from './amplifyconfiguration.json';
 import Authentication from './pages/Authentication'
+import UserHeader from './components/UserHeader'
 Amplify.configure(config);
 
 
@@ -27,10 +28,12 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path='books' element={<Books />} />
           <Route path='books/:id' element={<BookDetails />} />
-          <Route path='cart' element={<Cart />} />
           <Route path='checkout' element={<Checkout />} />
           <Route path='admin' element={<Admin />} />
           <Route path='auth' element={<Authentication />} />
+          <Route path='user/:id' element={<UserHeader />}>
+            <Route index element={<Cart />} />
+          </Route>
           <Route path='*' element={<Error />} />
         </Route>
       </Routes>

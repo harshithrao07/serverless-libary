@@ -11,8 +11,9 @@ const UserProvider = ({ children }) => {
 
     async function currentAuthenticatedUser() {
         try {
-            const { username } = await getCurrentUser();
-            return username
+            const { username, userId } = await getCurrentUser();
+            localStorage.setItem("username", username)
+            localStorage.setItem("userId", userId)
         } catch (err) {
             console.log(err);
         }
@@ -20,13 +21,13 @@ const UserProvider = ({ children }) => {
 
     async function findCartID() {
         try {
-            const username = await currentAuthenticatedUser();
+            const username = localStorage.getItem("username");
             const existingCartsResponse = await client.graphql({
                 query: listCarts,
                 variables: { filter: { user: { eq: username } } }
             })
             const cartID = existingCartsResponse.data.listCarts.items[0].id
-            return cartID
+            localStorage.setItem("cartId", cartID)
         } catch (error) {
             console.log(error)
         }

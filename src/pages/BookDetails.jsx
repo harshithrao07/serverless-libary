@@ -10,7 +10,6 @@ const BookDetails = () => {
   const navigate = useNavigate();
   const { books } = useContext(BookContext);
   const { addToCart } = useContext(CartContext);
-  const { username } = useContext(UserContext);
 
   const book = books.find((book) => {
     return book.id === id;
@@ -22,9 +21,10 @@ const BookDetails = () => {
   const { image: url, title, description, author, price } = book;
 
   const handleClick = async () => {
-    if (username != "") {
+    if (localStorage.getItem("username") != "") {
       addToCart({ ...book, id });
-      navigate("/cart");
+      const userId = localStorage.getItem("userId")
+      navigate(`/user/${userId}`)
     } else {
       navigate("/auth?message=You have to login first")
     }

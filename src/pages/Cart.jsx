@@ -1,18 +1,24 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/cart";
 import { FiChevronUp } from "react-icons/fi";
 import { FiChevronDown } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/user";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, total, increaseAmount, decreaseAmount, loading } = useContext(CartContext);
-  const { currentAuthenticatedUser } = useContext(UserContext)
+  const { cart, total, increaseAmount, decreaseAmount, loading, fetchCartItems } = useContext(CartContext);
+
+  useEffect(() => {
+    async function load() {
+      await fetchCartItems()
+    }
+
+    load()
+  }, [])
 
   useEffect(() => {
     async function checkAuthenticated() {
-      const username = await currentAuthenticatedUser();
+      const username  = localStorage.getItem("username");
       if (username === undefined) {
         navigate("/auth")
       }
@@ -20,6 +26,7 @@ const Cart = () => {
 
     checkAuthenticated()
   }, [])
+
 
   if (loading) {
     return <h3>Loading...</h3>;
