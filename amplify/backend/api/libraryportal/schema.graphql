@@ -99,15 +99,13 @@ input CartItemInput {
   title: String
   image: String
   price: Float
-  amount: Int
+  quantity: Int
 }
 
 input ProcessOrderInput {
   id: ID!
-  cart: [CartItemInput]
+  cartInput: [CartItemInput]
   total: Float!
-  token: String!
-  address: String
 }
 
 type Mutation {

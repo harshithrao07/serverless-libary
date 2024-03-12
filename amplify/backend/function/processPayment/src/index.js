@@ -23,18 +23,46 @@ const getUserEmail = async (event) => {
  */
 exports.handler = async (event) => {
   try {
-    const { id, cart, total, address, token } = event.arguments.input;
+    const { id, cartInput, total, paymentIntent } = event.arguments.input;
     const { username } = event.identity.claims;
     const email = await getUserEmail(event);
 
-    await stripe.charges.create({
-      amount: total * 100,
-      currency: "usd",
-      source: token,
-      description: `Order ${new Date()} by ${username} with ${email}`
-    });
-    return { id, cart, total, address, username, email };
+    const paymentIntents = await stripe.paymentIntents.confirm(
+      paymentIntent
+    );
+
+    // await stripe.charges.create({
+    //   amount: total * 100,
+    //   currency: "usd",
+    //   source: token,
+    //   description: `Order ${new Date()} by ${username} with ${email}`
+    // });
+
+    // const session = await stripe.checkout.sessions.create({
+    //   line_items: cartInput.map(item => {
+    //     return {
+    //       price_data: {
+    //         currency: "usd",
+    //         product_data: {
+    //           name: item.title,
+    //           images: [item.image]
+    //         },
+    //         unit_amount: item.price * 100
+    //       },
+    //       quantity: item.quantity,
+    //     }
+    //   }),
+    //   client_reference_id: email,
+    //   mode: 'payment',
+    //   success_url: `http://localhost:5173/`,
+    //   cancel_url: `http://localhost:5173/books`,
+    // });
+
+    // console.log(session)
+
+    return { id, cartInput, total, username, email };
   } catch (err) {
     throw new Error(err);
   }
+
 };

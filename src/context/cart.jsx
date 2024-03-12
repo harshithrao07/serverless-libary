@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { createCartItem, deleteCartItem, updateCartItem } from "../api/mutations";
 import { generateClient } from "aws-amplify/api";
-import { UserContext } from "./user";
 import { listCartItems } from "../api/queries";
+import { v4 as uuidv4 } from "uuid";
 
 const CartContext = React.createContext();
 
@@ -11,7 +11,7 @@ const CartProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false)
 
-  const client = generateClient();
+  const client = generateClient()
 
   async function fetchCartItems() {
     try {
@@ -31,18 +31,37 @@ const CartProvider = ({ children }) => {
       console.log(error);
     }
   }
-  
+
   useEffect(() => {
     fetchCartItems();
   }, []);
 
 
+    function inputCartForPayment() {
+      const createCartItemInputArray = (data) => {
+        return data.map(item => {
+          return {
+            id: item.bookID,
+            title: item.book.title,
+            image: item.book.image,
+            price: item.book.price,
+            quantity: item.quantity
+          }
+        })
+      }
+  
+      const cartItemsInputArray = createCartItemInputArray(cart);
+      return cartItemsInputArray;
+    }
+  
+
 
   useEffect(() => {
-    const total = [...cart].reduce((total, { amount, price }) => {
-      return (total += amount * price);
-    }, 0);
-    setTotal(parseFloat(total.toFixed(2)));
+    let total = 0;
+    cart.forEach(item => {
+      total += (item.book.price * item.quantity);
+    });
+    setTotal(total)
   }, [cart]);
 
 
@@ -115,7 +134,7 @@ const CartProvider = ({ children }) => {
     const { id, title, price, image } = book;
     const cartItem = cart.find((item) => item.bookID === id);
     const cartID = localStorage.getItem("cartId");
-    
+
     if (cartItem) {
       increaseAmount(id, cartItem.id);
     } else {
@@ -151,7 +170,7 @@ const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, total, addToCart, increaseAmount, decreaseAmount, clearCart, loading, fetchCartItems }}
+      value={{ cart, total, addToCart, increaseAmount, decreaseAmount, clearCart, loading, fetchCartItems, inputCartForPayment }}
     >
       {children}
     </CartContext.Provider>

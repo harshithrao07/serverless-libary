@@ -10,6 +10,7 @@ const BOOK_ORDER_TYPE = "BookOrder";
 
 const createOrder = async (payload) => {
   const { order_id, username, email, total } = payload;
+
   var params = {
     TableName: ORDER_TABLE,
     Item: {
@@ -28,8 +29,8 @@ const createOrder = async (payload) => {
 
 const createBookOrder = async (payload) => {
   let bookOrders = [];
-  for (i = 0; i < payload.cart.length; i++) {
-    const cartItem = payload.cart[i];
+  for (i = 0; i < payload.cartInput.length; i++) {
+    const cartItem = payload.cartInput[i];
     bookOrders.push({
       PutRequest: {
         Item: {
@@ -61,6 +62,7 @@ const createBookOrder = async (payload) => {
 exports.handler = async (event) => {
   try {
     let payload = event.prev.result;
+    console.log(payload)
     payload.order_id = uuidv4();
 
     // create a new order
@@ -70,7 +72,7 @@ exports.handler = async (event) => {
     await createBookOrder(payload);
 
     // Note - You may add another function to email the invoice to the user
-
+    console.log('SUCCESS')
     return "SUCCESS";
   } catch (err) {
     console.log(err);

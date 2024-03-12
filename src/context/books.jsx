@@ -24,6 +24,9 @@ const BookProvider = ({ children }) => {
           id: uuidv4(),
           ...orderDetails
         };
+
+        console.log(payload)
+
         try {
           await client.graphql({
             query: processOrder, 
