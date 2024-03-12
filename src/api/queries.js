@@ -134,6 +134,7 @@ export const listCartItems = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        __typename
       }
       }
       nextToken

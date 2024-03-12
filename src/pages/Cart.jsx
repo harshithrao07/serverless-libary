@@ -4,7 +4,6 @@ import { FiChevronUp } from "react-icons/fi";
 import { FiChevronDown } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { BookContext } from "../context/books";
-const stripe = require('stripe')('sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv');
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ const Cart = () => {
 
   async function handlePayment() {
     const cartInput = inputCartForPayment()
-    setOrderDetails({ cartInput, total, paymentIntent })
+    setOrderDetails({ cartInput, total })
     console.log(cartInput)
 
 

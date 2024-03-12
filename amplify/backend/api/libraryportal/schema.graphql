@@ -106,10 +106,10 @@ input ProcessOrderInput {
   id: ID!
   cartInput: [CartItemInput]
   total: Float!
+  userId: ID!
 }
 
 type Mutation {
-  processOrder(input: ProcessOrderInput!): OrderStatus
-    @function(name: "processPayment-${env}")
-    @function(name: "createOrder-${env}")
+  processPayment(input: ProcessOrderInput!): String @function(name: "processPayment-${env}")
+  processOrder(input: ProcessOrderInput!): OrderStatus  @function(name: "createOrder-${env}")
 }

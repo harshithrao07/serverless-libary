@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from "uuid";
 import { generateClient } from 'aws-amplify/api';
 import { listBooks } from "../api/queries";
-import { processOrder } from "../api/mutations";
+import { processPayment } from "../api/mutations";
 
 const BookContext = React.createContext()
 
@@ -22,16 +22,19 @@ const BookProvider = ({ children }) => {
     const checkout = async (orderDetails) => {
         const payload = {
           id: uuidv4(),
+          userId: localStorage.getItem("userId"),
           ...orderDetails
         };
 
         console.log(payload)
 
         try {
-          await client.graphql({
-            query: processOrder, 
+          const res = await client.graphql({
+            query: processPayment, 
             variables: { input: payload }
-        });
+          });
+
+          window.location.replace(res.data.processPayment)
           console.log("Order is successful");
         } catch (err) {
           console.log(err);

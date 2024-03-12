@@ -23,44 +23,47 @@ const getUserEmail = async (event) => {
  */
 exports.handler = async (event) => {
   try {
-    const { id, cartInput, total, paymentIntent } = event.arguments.input;
+    const { cartInput, userId } = event.arguments.input;
     const { username } = event.identity.claims;
     const email = await getUserEmail(event);
 
-    const paymentIntents = await stripe.paymentIntents.confirm(
-      paymentIntent
-    );
 
-    // await stripe.charges.create({
-    //   amount: total * 100,
-    //   currency: "usd",
-    //   source: token,
-    //   description: `Order ${new Date()} by ${username} with ${email}`
-    // });
+    const customer = await stripe.customers.create({
+      name: username,
+      email: email,
+      description: "Library BookStore",
+      address: {
+        line1: "NMAM Institute Of Technology",
+        postal_code: "574110",
+        city: "Nitte",
+        state: "Udupi",
+        country: "IN",
+      }
+    });
 
-    // const session = await stripe.checkout.sessions.create({
-    //   line_items: cartInput.map(item => {
-    //     return {
-    //       price_data: {
-    //         currency: "usd",
-    //         product_data: {
-    //           name: item.title,
-    //           images: [item.image]
-    //         },
-    //         unit_amount: item.price * 100
-    //       },
-    //       quantity: item.quantity,
-    //     }
-    //   }),
-    //   client_reference_id: email,
-    //   mode: 'payment',
-    //   success_url: `http://localhost:5173/`,
-    //   cancel_url: `http://localhost:5173/books`,
-    // });
 
-    // console.log(session)
+    const { url } = await stripe.checkout.sessions.create({
+      line_items: cartInput.map(item => {
+        return {
+          price_data: {
+            currency: "inr",
+            product_data: {
+              name: item.title,
+              images: [item.image]
+            },
+            unit_amount: item.price * 100
+          },
+          quantity: item.quantity,
+        }
+      }),
+      client_reference_id: userId,
+      customer: customer.id,
+      mode: 'payment',
+      success_url: `http://localhost:5173/success/${userId}`,
+      cancel_url: `http://localhost:5173/user/${userId}`,
+    });
 
-    return { id, cartInput, total, username, email };
+    return url;
   } catch (err) {
     throw new Error(err);
   }

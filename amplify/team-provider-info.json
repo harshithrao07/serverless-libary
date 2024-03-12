@@ -21,11 +21,11 @@
       "function": {
         "processPayment": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/processPayment-6e6b4e3750772f723750-build.zip"
+          "s3Key": "amplify-builds/processPayment-58456743397149524647-build.zip"
         },
         "createOrder": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/createOrder-724b526e52755a647956-build.zip"
+          "s3Key": "amplify-builds/createOrder-345a544f6b475033684f-build.zip"
         }
       },
       "api": {
