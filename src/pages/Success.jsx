@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { processOrder } from '../api/mutations';
+import { deleteCartItem, processOrder } from '../api/mutations';
 import { generateClient } from "aws-amplify/api";
 
 const Success = () => {
@@ -10,21 +10,36 @@ const Success = () => {
     async function createOrder() {
       try {
         const payload = JSON.parse(localStorage.getItem("payload"))
-        console.log(payload) 
 
         const res = await client.graphql({
           query: processOrder,
           variables: { input: payload }
         });
         
+        
+        await client.graphql({
+          query: deleteCartItem,
+          variables: {
+            condition: {
+              cartId: {
+                eq: localStorage.getItem('cartId')
+              }
+            }
+          }
+        })
+        
+        localStorage.removeItem("payload")
         console.log("Order is successful");
       } catch (err) {
         console.log(err);
       }
     }
 
-    createOrder()
+    if(localStorage.getItem("payload")) {
+      createOrder()
+    }
   }, [])
+
 
   return (
     <div>Success</div>

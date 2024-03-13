@@ -33,7 +33,9 @@ const CartProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    fetchCartItems();
+    if(localStorage.getItem("cartId")) {
+      fetchCartItems();
+    }
   }, []);
 
 

@@ -7,9 +7,12 @@ import { BookContext } from "../context/books";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, total, increaseAmount, decreaseAmount, loading, inputCartForPayment, calculateTotal } = useContext(CartContext);
+  const { cart, total, increaseAmount, decreaseAmount, loading, inputCartForPayment, calculateTotal, fetchCartItems } = useContext(CartContext);
   const { checkout } = useContext(BookContext);
 
+  useEffect(() => {
+    fetchCartItems()
+  }, [])
 
   useEffect(() => {
     async function checkAuthenticated() {
