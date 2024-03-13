@@ -33,6 +33,8 @@ const BookProvider = ({ children }) => {
             query: processPayment, 
             variables: { input: payload }
           });
+          
+          // 4000003560000008
 
           window.location.replace(res.data.processPayment)
           console.log("Session created Successfully.");
