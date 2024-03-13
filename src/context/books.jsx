@@ -26,8 +26,8 @@ const BookProvider = ({ children }) => {
           ...orderDetails
         };
 
-        console.log(payload)
-
+        localStorage.setItem("payload", JSON.stringify(payload))
+        
         try {
           const res = await client.graphql({
             query: processPayment, 
@@ -35,7 +35,7 @@ const BookProvider = ({ children }) => {
           });
 
           window.location.replace(res.data.processPayment)
-          console.log("Order is successful");
+          console.log("Session created Successfully.");
         } catch (err) {
           console.log(err);
         }

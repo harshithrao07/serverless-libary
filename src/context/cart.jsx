@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { createCartItem, deleteCartItem, updateCartItem } from "../api/mutations";
 import { generateClient } from "aws-amplify/api";
 import { listCartItems } from "../api/queries";
-import { v4 as uuidv4 } from "uuid";
 
 const CartContext = React.createContext();
 
@@ -26,6 +25,7 @@ const CartProvider = ({ children }) => {
       });
       const cart = data.listCartItems.items
       setCart(cart);
+      calculateTotal()
       setLoading(false)
     } catch (error) {
       console.log(error);
@@ -56,15 +56,15 @@ const CartProvider = ({ children }) => {
   
 
 
-  useEffect(() => {
+  function calculateTotal() {
     let total = 0;
     cart.forEach(item => {
-      total += (item.book.price * item.quantity);
+      if (item.book?.price) {
+        total += (item.book.price * item.quantity);
+      }
     });
     setTotal(total)
-  }, [cart]);
-
-
+  }
 
   const increaseAmount = async (bookID, cartID) => {
     try {
@@ -120,7 +120,6 @@ const CartProvider = ({ children }) => {
           }
         });
       }
-
       if (!response || !response.data) {
         console.error('Failed to update cart item.');
       }
@@ -143,7 +142,7 @@ const CartProvider = ({ children }) => {
         bookID: id,
         quantity: 1
       };
-      console.log(newCartItem)
+
       try {
         const response = await client.graphql({
           query: createCartItem,
@@ -170,7 +169,7 @@ const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, total, addToCart, increaseAmount, decreaseAmount, clearCart, loading, fetchCartItems, inputCartForPayment }}
+      value={{ cart, total, addToCart, increaseAmount, decreaseAmount, clearCart, loading, fetchCartItems, inputCartForPayment, calculateTotal }}
     >
       {children}
     </CartContext.Provider>

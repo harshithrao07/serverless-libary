@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { signOut } from 'aws-amplify/auth';
-import { UserContext } from "../context/user";
 
 const Header = () => {
   const [username, setUsername] = useState("")
@@ -14,7 +13,16 @@ const Header = () => {
       setUsername(localStorage.getItem("username") );
       setuserId(localStorage.getItem("userId"))
     }
+
+    if(localStorage.getItem("username") == "" && localStorage.getItem("userId") == "" && localStorage.getItem('cartId') == "")
+    {
+      localStorage.removeItem("username")
+      localStorage.removeItem("userId")
+      localStorage.removeItem("cartId")
+      navigate("/auth?message=You have to login first")
+    }
   }, [location]);
+
 
   const handleClick = async () => {
     setUsername("")

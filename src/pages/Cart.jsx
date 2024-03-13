@@ -7,9 +7,8 @@ import { BookContext } from "../context/books";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, total, increaseAmount, decreaseAmount, loading, inputCartForPayment } = useContext(CartContext);
+  const { cart, total, increaseAmount, decreaseAmount, loading, inputCartForPayment, calculateTotal } = useContext(CartContext);
   const { checkout } = useContext(BookContext);
-  const [orderDetails, setOrderDetails] = useState(null);
 
 
   useEffect(() => {
@@ -23,7 +22,9 @@ const Cart = () => {
     checkAuthenticated()
   }, [])
 
-
+  useEffect(() => {
+    calculateTotal()
+  }, [cart])
 
   if (loading) {
     return <h3>Loading...</h3>;
@@ -36,10 +37,7 @@ const Cart = () => {
 
   async function handlePayment() {
     const cartInput = inputCartForPayment()
-    setOrderDetails({ cartInput, total })
-    console.log(cartInput)
-
-
+    const orderDetails = { cartInput, total }
     checkout(orderDetails)
   }
 
@@ -73,9 +71,17 @@ const Cart = () => {
                 <p>$ {book && book.price}</p>
               </div>
               <div className="amount">
-                <button onClick={() => increaseAmount(bookID, id)}><FiChevronUp /></button>
+                <button onClick={() => {
+                  increaseAmount(bookID, id) 
+                  calculateTotal()
+                  }}
+                ><FiChevronUp /></button>
                 <p>{quantity}</p>
-                <button onClick={() => decreaseAmount(bookID, quantity, id)}><FiChevronDown /></button>
+                <button onClick={() => {
+                  decreaseAmount(bookID, quantity, id)
+                  calculateTotal()
+                }}
+                ><FiChevronDown /></button>
               </div>
             </article>
           ))}

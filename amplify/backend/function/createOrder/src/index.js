@@ -1,5 +1,8 @@
 const { v4: uuidv4 } = require("uuid");
 const AWS = require("aws-sdk");
+const { CognitoIdentityServiceProvider } = require("aws-sdk");
+const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
+const USER_POOL_ID = "ap-south-1_rAVCVKnN3";
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
 const ORDER_TABLE = "Order-6duiad4gr5acbchmdjikimy4ua-dev";
@@ -7,6 +10,19 @@ const ORDER_TYPE = "Order";
 const BOOK_ORDER_TABLE = "BookOrder-6duiad4gr5acbchmdjikimy4ua-dev";
 const BOOK_ORDER_TYPE = "BookOrder";
 
+const getUserEmail = async (event) => {
+  const params = {
+    UserPoolId: USER_POOL_ID,
+    Username: event.identity.claims.username
+  };
+  const user = await cognitoIdentityServiceProvider.adminGetUser(params).promise();
+  const { Value: email } = user.UserAttributes.find((attr) => {
+    if (attr.Name === "email") {
+      return attr.Value;
+    }
+  });
+  return email;
+};
 
 const createOrder = async (payload) => {
   const { order_id, username, email, total } = payload;
@@ -61,10 +77,15 @@ const createBookOrder = async (payload) => {
  */
 exports.handler = async (event) => {
   try {
-    let payload = event.prev.result;
+    let payload = event.arguments.input;
     console.log(payload)
+    const { username } = event.identity.claims;
+    const email = await getUserEmail(event);
     payload.order_id = uuidv4();
+    payload.username = username;
+    payload.email = email
 
+    console.log(username, email)
     // create a new order
     await createOrder(payload);
 
