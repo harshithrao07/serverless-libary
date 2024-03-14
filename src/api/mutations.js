@@ -388,7 +388,8 @@ export const updateCartItem = /* GraphQL */ `
 `;
 export const deleteCartItem = /* GraphQL */ `
   mutation DeleteCartItem(
-    $input: [ID]!
+    $input: DeleteCartItemInput!
+    $condition: ModelCartItemConditionInput
   ) {
     deleteCartItem(input: $input, condition: $condition) {
       id

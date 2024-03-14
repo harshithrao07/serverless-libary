@@ -7,7 +7,7 @@ const UserHeader = () => {
     const { total } = useContext(CartContext)
 
     useEffect(() => {
-        setUsername(localStorage.getItem("username"))
+        setUsername(sessionStorage.getItem("username"))
     }, [])
 
     return (

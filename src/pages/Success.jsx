@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { deleteCartItem, processOrder } from '../api/mutations';
 import { generateClient } from "aws-amplify/api";
+import { CartContext } from '../context/cart';
 
 const Success = () => {
   const client = generateClient()
@@ -9,33 +10,29 @@ const Success = () => {
 
     async function createOrder() {
       try {
-        const payload = JSON.parse(localStorage.getItem("payload"))
+        const payload = JSON.parse(sessionStorage.getItem("payload"))
 
         const res = await client.graphql({
           query: processOrder,
           variables: { input: payload }
         });
-        
-        
-        await client.graphql({
-          query: deleteCartItem,
-          variables: {
-            condition: {
-              cartId: {
-                eq: localStorage.getItem('cartId')
-              }
-            }
-          }
+
+        console.log(payload)
+        payload.cartInput.map(async (item, id) => {
+          await client.graphql({
+            query: deleteCartItem,
+            variables: { input: { id: item.cartItemId } }
+          })
         })
         
-        localStorage.removeItem("payload")
+        sessionStorage.removeItem("payload")
         console.log("Order is successful");
       } catch (err) {
         console.log(err);
       }
     }
 
-    if(localStorage.getItem("payload")) {
+    if(sessionStorage.getItem("payload")) {
       createOrder()
     }
   }, [])

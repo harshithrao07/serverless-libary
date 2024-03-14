@@ -19,7 +19,7 @@ const CartProvider = ({ children }) => {
         query: listCartItems,
         variables: {
           filter: {
-            cartID: { eq: localStorage.getItem("cartId") }
+            cartID: { eq: sessionStorage.getItem("cartId") }
           }
         }
       });
@@ -33,7 +33,7 @@ const CartProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if(localStorage.getItem("cartId")) {
+    if(sessionStorage.getItem("cartId")) {
       fetchCartItems();
     }
   }, []);
@@ -47,7 +47,8 @@ const CartProvider = ({ children }) => {
             title: item.book.title,
             image: item.book.image,
             price: item.book.price,
-            quantity: item.quantity
+            quantity: item.quantity,
+            cartItemId: item.id
           }
         })
       }
@@ -134,7 +135,7 @@ const CartProvider = ({ children }) => {
   const addToCart = async (book) => {
     const { id, title, price, image } = book;
     const cartItem = cart.find((item) => item.bookID === id);
-    const cartID = localStorage.getItem("cartId");
+    const cartID = sessionStorage.getItem("cartId");
 
     if (cartItem) {
       increaseAmount(id, cartItem.id);

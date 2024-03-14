@@ -55,6 +55,7 @@ const createBookOrder = async (payload) => {
           book_id: cartItem.id,
           order_id: payload.order_id,
           customer: payload.email,
+          quantity: cartItem.quantity,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         }

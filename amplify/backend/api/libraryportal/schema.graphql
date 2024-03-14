@@ -34,6 +34,7 @@ type BookOrder
   id: ID!
   book_id: ID!
   order_id: ID!
+  quantity: Int!
   book: Book @connection(fields: ["book_id"])
   order: Order @connection(fields: ["order_id"])
 }
@@ -99,7 +100,8 @@ input CartItemInput {
   title: String
   image: String
   price: Float
-  quantity: Int
+  quantity: Int,
+  cartItemId: ID!
 }
 
 input ProcessOrderInput {

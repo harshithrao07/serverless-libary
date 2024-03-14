@@ -89,6 +89,7 @@ export const createBookOrder = /* GraphQL */ `
       id
       book_id
       order_id
+      quantity
       order {
         id
         user
@@ -127,6 +128,7 @@ export const updateBookOrder = /* GraphQL */ `
       id
       book_id
       order_id
+      quantity
       order {
         id
         user
@@ -165,6 +167,7 @@ export const deleteBookOrder = /* GraphQL */ `
       id
       book_id
       order_id
+      quantity
       order {
         id
         user

@@ -16,7 +16,7 @@ const Cart = () => {
 
   useEffect(() => {
     async function checkAuthenticated() {
-      const username = localStorage.getItem("username");
+      const username = sessionStorage.getItem("username");
       if (username === undefined) {
         navigate("/auth")
       }

@@ -25,7 +25,7 @@
         },
         "createOrder": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/createOrder-7a6d4852307772326c72-build.zip"
+          "s3Key": "amplify-builds/createOrder-3433564671703075656b-build.zip"
         }
       },
       "api": {

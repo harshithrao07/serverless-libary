@@ -9,16 +9,16 @@ const Header = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if(localStorage.getItem("username") && localStorage.getItem("userId")) {
-      setUsername(localStorage.getItem("username") );
-      setuserId(localStorage.getItem("userId"))
+    if(sessionStorage.getItem("username") && sessionStorage.getItem("userId")) {
+      setUsername(sessionStorage.getItem("username") );
+      setuserId(sessionStorage.getItem("userId"))
     }
 
-    if(localStorage.getItem("username") == "" && localStorage.getItem("userId") == "" && localStorage.getItem('cartId') == "")
+    if(sessionStorage.getItem("username") == "" && sessionStorage.getItem("userId") == "" && sessionStorage.getItem('cartId') == "")
     {
-      localStorage.removeItem("username")
-      localStorage.removeItem("userId")
-      localStorage.removeItem("cartId")
+      sessionStorage.removeItem("username")
+      sessionStorage.removeItem("userId")
+      sessionStorage.removeItem("cartId")
       navigate("/auth?message=You have to login first")
     }
   }, [location]);
@@ -27,9 +27,9 @@ const Header = () => {
   const handleClick = async () => {
     setUsername("")
     setuserId("")
-    localStorage.removeItem("username")
-    localStorage.removeItem("userId")
-    localStorage.removeItem("cartId")
+    sessionStorage.removeItem("username")
+    sessionStorage.removeItem("userId")
+    sessionStorage.removeItem("cartId")
     await signOut({ global: true })
     navigate("/")
   }

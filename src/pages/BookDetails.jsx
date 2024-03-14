@@ -21,9 +21,9 @@ const BookDetails = () => {
   const { image: url, title, description, author, price } = book;
 
   const handleClick = async () => {
-    if (localStorage.getItem("username") != "") {
+    if (sessionStorage.getItem("username") != "") {
       addToCart({ ...book, id });
-      const userId = localStorage.getItem("userId")
+      const userId = sessionStorage.getItem("userId")
       navigate(`/user/${userId}`)
     } else {
       navigate("/auth?message=You have to login first")
