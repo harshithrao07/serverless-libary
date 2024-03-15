@@ -4,6 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  display: none;
+}
+
+.login-card {
+  @apply bg-orange-100 bg-opacity-20 shadow-sm backdrop-blur-lg border border-opacity-75 border-orange-100 rounded-lg
+}
 
 * {
   margin: 0;
