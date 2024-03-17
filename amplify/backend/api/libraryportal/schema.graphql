@@ -21,7 +21,7 @@ type Book
 }
 
 type BookOrder
-  @model(queries: null, subscriptions: null)
+  @model(subscriptions: null)
   @key(name: "byBook", fields: ["book_id", "order_id"])
   @key(name: "byOrder", fields: ["order_id", "book_id"])
   @auth(

@@ -1,6 +1,64 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getBookOrder = /* GraphQL */ `
+  query GetBookOrder($id: ID!) {
+    getBookOrder(id: $id) {
+      id
+      book_id
+      order_id
+      quantity
+      order {
+        id
+        user
+        date
+        total
+        createdAt
+        updatedAt
+        customer
+        __typename
+      }
+      createdAt
+      updatedAt
+      book {
+        id
+        title
+        description
+        image
+        author
+        featured
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      customer
+      __typename
+    }
+  }
+`;
+export const listBookOrders = /* GraphQL */ `
+  query ListBookOrders(
+    $filter: ModelBookOrderFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBookOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        book_id
+        order_id
+        quantity
+        createdAt
+        updatedAt
+        customer
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getOrder = /* GraphQL */ `
   query GetOrder($id: ID!) {
     getOrder(id: $id) {

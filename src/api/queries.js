@@ -187,3 +187,33 @@ export const listBooks = /* GraphQL */ `
   }
 `;
 
+export const listBookOrders = /* GraphQL */ `
+  query ListBookOrders(
+    $filter: ModelBookOrderFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBookOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        book_id
+        order_id
+        quantity
+        createdAt
+        updatedAt
+        customer
+        book {
+        id
+        title
+        description
+        image
+        author
+        price
+      }
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+

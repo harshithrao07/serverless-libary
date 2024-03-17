@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { createCartItem, deleteCartItem, updateCartItem } from "../api/mutations";
 import { generateClient } from "aws-amplify/api";
 import { listCartItems } from "../api/queries";
@@ -19,7 +19,7 @@ const CartProvider = ({ children }) => {
         query: listCartItems,
         variables: {
           filter: {
-            cartID: { eq: sessionStorage.getItem("cartId") }
+            cartID: { eq: localStorage.getItem("cartId") }
           }
         }
       });
@@ -32,31 +32,31 @@ const CartProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    if(sessionStorage.getItem("cartId")) {
-      fetchCartItems();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if(localStorage.getItem("cartId")) {
+  //     fetchCartItems();
+  //   }
+  // }, []);
 
 
-    function inputCartForPayment() {
-      const createCartItemInputArray = (data) => {
-        return data.map(item => {
-          return {
-            id: item.bookID,
-            title: item.book.title,
-            image: item.book.image,
-            price: item.book.price,
-            quantity: item.quantity,
-            cartItemId: item.id
-          }
-        })
-      }
-  
-      const cartItemsInputArray = createCartItemInputArray(cart);
-      return cartItemsInputArray;
+  function inputCartForPayment() {
+    const createCartItemInputArray = (data) => {
+      return data.map(item => {
+        return {
+          id: item.bookID,
+          title: item.book.title,
+          image: item.book.image,
+          price: item.book.price,
+          quantity: item.quantity,
+          cartItemId: item.id
+        }
+      })
     }
-  
+
+    const cartItemsInputArray = createCartItemInputArray(cart);
+    return cartItemsInputArray;
+  }
+
 
 
   function calculateTotal() {
@@ -66,7 +66,8 @@ const CartProvider = ({ children }) => {
         total += (item.book.price * item.quantity);
       }
     });
-    setTotal(total)
+    total = parseFloat(total.toFixed(2));
+    setTotal(total);
   }
 
   const increaseAmount = async (bookID, cartID) => {
@@ -107,11 +108,15 @@ const CartProvider = ({ children }) => {
 
     try {
       let response;
+      let choice;
       if (quantity === 1) {
-        response = await client.graphql({
-          query: deleteCartItem,
-          variables: { input: { id: id } }
-        });
+        choice = confirm("Do you really want to delete this item?")
+        if (choice) {
+          response = await client.graphql({
+            query: deleteCartItem,
+            variables: { input: { id: id } }
+          });
+        }
       } else {
         response = await client.graphql({
           query: updateCartItem,
@@ -125,6 +130,7 @@ const CartProvider = ({ children }) => {
       }
       if (!response || !response.data) {
         console.error('Failed to update cart item.');
+      } else if (!choice) {
       }
     } catch (error) {
       console.error('Error updating cart item:', error);
@@ -135,7 +141,7 @@ const CartProvider = ({ children }) => {
   const addToCart = async (book) => {
     const { id, title, price, image } = book;
     const cartItem = cart.find((item) => item.bookID === id);
-    const cartID = sessionStorage.getItem("cartId");
+    const cartID = localStorage.getItem("cartId");
 
     if (cartItem) {
       increaseAmount(id, cartItem.id);

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,7 +12,11 @@
   @apply bg-orange-100 bg-opacity-20 shadow-sm backdrop-blur-lg border border-opacity-75 border-orange-100 rounded-lg
 }
 
-* {
+body {
+  font-family: 'Kumbh Sans', sans-serif;
+}
+
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -22,9 +26,7 @@ html {
   font-size: 62.5%
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-}
+
 
 h1 {
   font-size: 2.6rem;
@@ -50,14 +52,14 @@ h3 {
 h4,
 h5 {
   font-size: 2.8rem;
-}
+} */
 
-a {
+/* a {
   color: white;
   text-decoration: none;
-}
+} */
 
-.btn {
+/* .btn {
   padding: 2rem 6rem;
   background: #4c6e97;
   color: white;
@@ -67,11 +69,11 @@ a {
 
 .btn:hover {
   background: #121c27;
-}
+} */
 
 /* Nav Section */
 
-.main-head {
+/* .main-head {
   background: #131c27;
   color: white;
 }
@@ -98,11 +100,11 @@ nav ul {
   flex: 2 1 40rem;
   font-family: 'Pattaya', sans-serif;
   font-weight: 400;
-}
+} */
 
 /* Hero Section */
 
-.hero {
+/* .hero {
   background: linear-gradient(rgba(0, 0, 0, 0.5), transparent), url(./assets/hero-background.jpg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -123,11 +125,11 @@ nav ul {
 .hero .wrapper {
   width: 90%;
   margin: auto;
-}
+} */
 
 /* Featured Books and Books Section */
 
-.featured-head {
+/* .featured-head {
   background: #343c44;
   padding: 2rem;
   color: white;
@@ -186,11 +188,11 @@ nav ul {
 .book img {
   min-height: 10vh;
   height: 21vh;
-}
+} */
 
 /* Book Details Section */
 
-.book-details {
+/* .book-details {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -212,11 +214,11 @@ nav ul {
   justify-content: space-evenly;
   height: 75%;
   padding: 0 5rem;
-}
+} */
 
 /* Admin Section */
 
-.admin-wrapper {
+/* .admin-wrapper {
   width: 70%;
   margin: auto;
   text-align: center;
@@ -284,11 +286,11 @@ nav ul {
 
 .submit-form {
   width: 100%;
-}
+} */
 
 /* Cart Section */
 
-.cart {
+/* .cart {
   width: 90%;
   margin: auto;
   text-align: center;
@@ -327,11 +329,11 @@ nav ul {
   position: absolute;
   top: 48%;
   left: 40%;
-}
+} */
 
 /* Checkout Section */
 
-.checkout-wrapper {
+/* .checkout-wrapper {
   width: 60%;
   margin: auto;
   text-align: center;
@@ -345,9 +347,9 @@ nav ul {
 
 .stripe-section {
   margin-top: 2rem;
-}
+} */
 
-@media screen and (max-width: 933px) {
+/* @media screen and (max-width: 933px) {
   html {
     font-size: 62.5%;
   }
@@ -363,4 +365,4 @@ nav ul {
   .book-details {
     margin-top: 4rem;
   }
-}
+} */

@@ -19,8 +19,8 @@ const Login = () => {
   useEffect(() => {
     async function getUsername() {
       await currentAuthenticatedUser();
-      setUser(sessionStorage.getItem("username"))
-      setuserId(sessionStorage.getItem("userId"))
+      setUser(localStorage.getItem("username"))
+      setuserId(localStorage.getItem("userId"))
     }
 
     getUsername();

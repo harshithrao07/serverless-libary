@@ -22,11 +22,11 @@ const BookProvider = ({ children }) => {
     const checkout = async (orderDetails) => {
         const payload = {
           id: uuidv4(),
-          userId: sessionStorage.getItem("userId"),
+          userId: localStorage.getItem("userId"),
           ...orderDetails
         };
 
-        sessionStorage.setItem("payload", JSON.stringify(payload))
+        localStorage.setItem("payload", JSON.stringify(payload))
         
         try {
           const res = await client.graphql({
