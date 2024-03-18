@@ -52,7 +52,7 @@ const BookDetails = () => {
         </Breadcrumbs>
         <div className="grid grid-cols-1 lg:grid-cols-2 md:p-5 lg:p-0">
           <div className="lg:px-10 lg:pb-10 flex justify-center items-center">
-            <img className="border p-0 md:w-3/4 md:mb-5 lg:mb-0" src={url} />
+            <img className="border p-0 md:w-1/2 md:mb-5 lg:mb-0" src={url} />
           </div>
           <div className="p-3 lg:px-10 lg:pb-10 flex flex-col">
             <span className="text-primary-100 font-black text-sm lg:text-xl pb-1 lg:border-b-2 border-primary-100">NITTE Library Portal</span>

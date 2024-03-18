@@ -21,7 +21,7 @@
       "function": {
         "processPayment": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/processPayment-476a4471746658424439-build.zip"
+          "s3Key": "amplify-builds/processPayment-6b656e6a6b466e776637-build.zip"
         },
         "createOrder": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",

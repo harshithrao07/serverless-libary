@@ -41,7 +41,8 @@ exports.handler = async (event) => {
       }
     });
 
-
+    console.log(cartInput)
+    
     const { url } = await stripe.checkout.sessions.create({
       line_items: cartInput.map(item => {
         return {

@@ -39,11 +39,14 @@ const Header = () => {
 
 
   const handleLogOut = async () => {
-    setUsername("")
-    setuserId("")
-    localStorage.clear()
-    await signOut({ global: true })
-    navigate("/")
+    const choice = confirm("Are you sure you want to log out?")
+    if(choice) {
+      setUsername("")
+      setuserId("")
+      localStorage.clear()
+      await signOut({ global: true })
+      navigate("/")
+    }
   }
 
   const links = [
@@ -107,7 +110,7 @@ const Header = () => {
 
 
   return (
-    <nav className="fixed z-50 top-0 uppercase text-[#2A2A2A] bg-yellow-400 w-full flex items-center justify-between px-5 font-normal lg:px-16">
+    <nav className="fixed bg-yellow-400 z-50 top-0 uppercase text-[#2A2A2A] w-full flex items-center justify-between px-5 font-normal lg:px-16">
       <NavLink to="/"><span className='text-xl lg:text-4xl font-bold'>NITTE</span></NavLink>
       <div className={isOpen ? "inline-block absolute top-0 bg-yellow-400 h-screen right-0" : "hidden lg:inline-flex"}>
         {renderLinks()}

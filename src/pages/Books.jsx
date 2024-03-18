@@ -12,16 +12,24 @@ const Books = () => {
 
 
     return (
-        <section className="books">
-            {books.map(({ image: image, id, title }) => (
-                <article key={id} className="book">
-                    <div className="book-image">
-                        <img src={image} alt={title} />
-                    </div>
-                    <Link to={`/books/${id}`} className="btn book-link">details</Link>
-                </article>
-            ))}
-        </section>
+        <div className="lg:px-20 px-4 mt-8 lg:mt-20 font-body">
+            <div className="grid gap-x-4 gap-y-2 md:grid-cols-2 lg:grid-cols-3 w-full">
+                {books.map(({ image: image, id, title, author, price }) => (
+                    <Link key={id} to={`/books/${id}`}>
+                        <div className="p-4">
+                            <img src={image} alt={title} className="w-full h-96" />
+                            <div className="my-2 lg:my-3 flex items-center text-xs lg:text-sm">
+                                <span className="ml-auto text-purple-700 font-bold text-sm uppercase">{author}</span>
+                            </div>
+                            <div className="flex flex-col py-2 border-t-2 border-primary-200 text-gray-800">
+                                <span className="text-md font-bold">{title.toUpperCase()}</span>
+                                <span className="font-bold text-xl">${price}</span>
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
     )
 }
 
