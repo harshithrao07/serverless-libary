@@ -11,6 +11,15 @@ export const processOrder = /* GraphQL */ `
     processOrder(input: $input)
   }
 `;
+export const processSubscriptions = /* GraphQL */ `
+  mutation ProcessSubscriptions($input: ProcessSubscriptionsInput!) {
+    processSubscriptions(input: $input) {
+      url
+      id
+      __typename
+    }
+  }
+`;
 export const createBook = /* GraphQL */ `
   mutation CreateBook(
     $input: CreateBookInput!

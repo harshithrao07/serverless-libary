@@ -70,6 +70,12 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "processSubscriptions": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -102,6 +108,22 @@
         {
           "category": "function",
           "resourceName": "processPayment"
+        }
+      ]
+    },
+    "AMPLIFY_function_processSubscriptions_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "processSubscriptions"
+        }
+      ]
+    },
+    "AMPLIFY_function_processSubscriptions_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "processSubscriptions"
         }
       ]
     }

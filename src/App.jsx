@@ -18,6 +18,8 @@ import Error from './pages/Error'
 import { Amplify } from 'aws-amplify';
 import config from './amplifyconfiguration.json';
 import Success from './pages/Success'
+import Subscriptions from './pages/Subscriptions'
+import SubscriptionSuccess from './pages/SubscriptionSuccess'
 
 Amplify.configure(config);
 
@@ -37,6 +39,8 @@ const App = () => {
             <Route path='orders' element={<Orders />} />
           </Route>
           <Route path='success/:id' element={<Success />} />
+          <Route path='subscriptions' element={<Subscriptions />} />
+          <Route path='subscription-success' element={<SubscriptionSuccess />} />
           <Route path='*' element={<Error />} />
         </Route>
       </Routes>
