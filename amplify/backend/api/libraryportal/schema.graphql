@@ -112,17 +112,13 @@ input ProcessOrderInput {
 }
 
 input ProcessSubscriptionsInput {
-  id: ID!
-  lookup_key: String
+  user: String
   userId: String
 }
-type SubscriptionResult {
-  url: String
-  id: String
-}
+
 
 type Mutation {
   processPayment(input: ProcessOrderInput!): String @function(name: "processPayment-${env}")
   processOrder(input: ProcessOrderInput!): OrderStatus  @function(name: "createOrder-${env}")
-  processSubscriptions(input: ProcessSubscriptionsInput!): SubscriptionResult @function(name: "processSubscriptions-${env}")
+  processSubscriptions(input: ProcessSubscriptionsInput!): String @function(name: "processSubscriptions-${env}")
 }

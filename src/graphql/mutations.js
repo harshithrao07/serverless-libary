@@ -13,11 +13,7 @@ export const processOrder = /* GraphQL */ `
 `;
 export const processSubscriptions = /* GraphQL */ `
   mutation ProcessSubscriptions($input: ProcessSubscriptionsInput!) {
-    processSubscriptions(input: $input) {
-      url
-      id
-      __typename
-    }
+    processSubscriptions(input: $input)
   }
 `;
 export const createBook = /* GraphQL */ `

@@ -73,7 +73,15 @@
     },
     "processSubscriptions": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "libraryportal590f4ae7"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }

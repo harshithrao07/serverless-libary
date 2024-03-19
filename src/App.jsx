@@ -40,7 +40,7 @@ const App = () => {
           </Route>
           <Route path='success/:id' element={<Success />} />
           <Route path='subscriptions' element={<Subscriptions />} />
-          <Route path='subscription-success' element={<SubscriptionSuccess />} />
+          <Route path='subscription-success/:id' element={<SubscriptionSuccess />} />
           <Route path='*' element={<Error />} />
         </Route>
       </Routes>

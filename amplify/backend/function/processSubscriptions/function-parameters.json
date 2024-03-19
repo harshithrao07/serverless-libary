@@ -1,3 +1,13 @@
 {
+  "permissions": {
+    "auth": {
+      "libraryportal590f4ae7": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
   "lambdaLayers": []
 }
