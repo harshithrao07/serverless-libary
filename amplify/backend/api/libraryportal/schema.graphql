@@ -1,5 +1,4 @@
-type Book
-  @model(subscriptions: null)
+type Book @model(subscriptions: null)
   @auth(
     rules: [
       # allow admins to create, update and delete books
@@ -20,8 +19,7 @@ type Book
   orders: [BookOrder] @connection(keyName: "byBook", fields: ["id"])
 }
 
-type BookOrder
-  @model(subscriptions: null)
+type BookOrder @model(subscriptions: null)
   @key(name: "byBook", fields: ["book_id", "order_id"])
   @key(name: "byOrder", fields: ["order_id", "book_id"])
   @auth(
@@ -39,8 +37,7 @@ type BookOrder
   order: Order @connection(fields: ["order_id"])
 }
 
-type Order
-  @model(subscriptions: null)
+type Order @model(subscriptions: null)
   @auth(
     rules: [
       # only owner can see his orders
@@ -57,11 +54,10 @@ type Order
   books: [BookOrder] @connection(keyName: "byOrder", fields: ["id"])
 }
 
-type Cart
-  @model(subscriptions: null)
+type Cart @model(subscriptions: null)
   @auth(
     rules: [
-       # only owner can see his cart
+      # only owner can see his cart
       { allow: owner, ownerField: "customer" },
       # allow admins to view cart
       { allow: groups, groups: ["Admin"] }
@@ -72,13 +68,12 @@ type Cart
   items: [CartItem] @connection(keyName: "byCart", fields: ["id"])
 }
 
-type CartItem
-  @model(subscriptions: null)
+type CartItem @model(subscriptions: null)
   @key(name: "byBook", fields: ["bookID", "cartID"])
   @key(name: "byCart", fields: ["cartID", "bookID"])
   @auth(
     rules: [
-      { allow: owner, ownerField: "cart" },
+      { allow: owner, ownerField: "cart" }
       { allow: groups, groups: ["Admin"] }
     ]
   ) {
@@ -111,14 +106,8 @@ input ProcessOrderInput {
   userId: ID!
 }
 
-input ProcessSubscriptionsInput {
-  user: String
-  userId: String
-}
-
-
 type Mutation {
   processPayment(input: ProcessOrderInput!): String @function(name: "processPayment-${env}")
   processOrder(input: ProcessOrderInput!): OrderStatus  @function(name: "createOrder-${env}")
-  processSubscriptions(input: ProcessSubscriptionsInput!): String @function(name: "processSubscriptions-${env}")
+  processSubscriptions: String @function(name: "processSubscriptions-${env}")
 }

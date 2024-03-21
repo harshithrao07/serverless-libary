@@ -29,7 +29,7 @@
         },
         "processSubscriptions": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/processSubscriptions-742f3062384d2f354655-build.zip"
+          "s3Key": "amplify-builds/processSubscriptions-66793630654c3069657a-build.zip"
         }
       },
       "api": {

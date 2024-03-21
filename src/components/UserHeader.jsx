@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { CartContext } from '../context/cart'
+import Subscriptions from './Subscriptions'
 
 const UserHeader = () => {
     const [username, setUsername] = useState("")
@@ -20,6 +21,7 @@ const UserHeader = () => {
                 <NavLink end className={({ isActive }) => isActive ? "text-orange-700" : "text-black"} to="."><span className="mx-3">Cart</span></NavLink>
                 <NavLink className={({ isActive }) => isActive ? "text-orange-700" : "text-black"} to="orders"><span className="mx-3">Orders</span></NavLink>
             </nav>
+            <Subscriptions />
             <Outlet />
         </div>
     )
