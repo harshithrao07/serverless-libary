@@ -38,14 +38,14 @@ export default function Subscriptions() {
   }
 
   return (
-    <div>
+    <div className="mt-1 md:mt-3 pb-1">
       {
         status == "Not Active" ?
-        <button onClick={handleClick} className="my-5 lg:px-20">
+        <button onClick={handleClick}>
             Get Membership Access
         </button>
         :
-        <span>Active Member</span>
+        <span className="">Active Member</span>
       }
     </div>
   )

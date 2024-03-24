@@ -58,7 +58,7 @@ const Cart = () => {
           <Link className="hover:text-primary-200" key={bookID} to={`/books/${bookID}?redirectTo=${locations.pathname}`}>
             <span className="text-sm md:text-md md:text-xl font-semibold md:font-bold">{book.title}</span>&nbsp;<span className="text-sm md:text-md md:text-md font-semibold md:font-bold italic text-primary-200">x{quantity}</span></Link>
           <span className="text-gray-700 text-md md:text-lg">{book.author}</span>
-          <span className="text-md md:text-xl">${book.price}</span>
+          <span className="text-md md:text-xl">₹{book.price}</span>
         </div>
         <div className="ml-auto flex flex-col justify-center p-2 w-1/4">
           <div onClick={() => handleDelete(id)} className="mb-4 md:mb-5 ml-auto p-2 rounded-xl bg-white hover:border border-primary-200 group">
@@ -91,9 +91,9 @@ const Cart = () => {
     return cart.map((item, index) => (
       <div key={index} className="grid grid-cols-4 md:grid-cols-5 py-1 px-2 md:px-0 border-t border-black">
         <span className="text-xs md:text-lg md:col-span-2">{item.book.title}</span>
-        <span className="text-xs md:text-lg flex justify-center">${item.book.price}</span>
+        <span className="text-xs md:text-lg flex justify-center">₹{item.book.price}</span>
         <span className="text-xs md:text-lg flex justify-center">x{item.quantity}</span>
-        <span className="text-xs md:text-lg flex justify-center">${(item.book.price) * (item.quantity)}</span>
+        <span className="text-xs md:text-lg flex justify-center">₹{(item.book.price) * (item.quantity)}</span>
       </div>
     ))
   }
