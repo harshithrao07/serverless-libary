@@ -15,6 +15,8 @@ const BookDetails = () => {
     return book.id === id;
   });
 
+  console.log(book)
+
   if (!book) {
     return <h3>Loading...</h3>;
   }

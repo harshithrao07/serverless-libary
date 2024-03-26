@@ -126,7 +126,7 @@ const Admin = () => {
         options: { accessLevel: "public" },
       });
 
-      setImage(url);
+      setPDF(url);
       setBookDetails({ ...bookDetails, pdf: url });
     } catch (err) {
       console.log(err);
