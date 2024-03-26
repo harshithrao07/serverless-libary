@@ -29,6 +29,7 @@ export const createBook = /* GraphQL */ `
       author
       featured
       price
+      pdf
       orders {
         nextToken
         __typename
@@ -52,6 +53,7 @@ export const updateBook = /* GraphQL */ `
       author
       featured
       price
+      pdf
       orders {
         nextToken
         __typename
@@ -75,6 +77,7 @@ export const deleteBook = /* GraphQL */ `
       author
       featured
       price
+      pdf
       orders {
         nextToken
         __typename
@@ -115,6 +118,7 @@ export const createBookOrder = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename
@@ -154,6 +158,7 @@ export const updateBookOrder = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename
@@ -193,6 +198,7 @@ export const deleteBookOrder = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename
@@ -350,6 +356,7 @@ export const createCartItem = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename
@@ -386,6 +393,7 @@ export const updateCartItem = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename
@@ -422,6 +430,7 @@ export const deleteCartItem = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename

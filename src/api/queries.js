@@ -177,6 +177,7 @@ export const listBooks = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename
@@ -186,7 +187,6 @@ export const listBooks = /* GraphQL */ `
     }
   }
 `;
-
 export const listBookOrders = /* GraphQL */ `
   query ListBookOrders(
     $filter: ModelBookOrderFilterInput

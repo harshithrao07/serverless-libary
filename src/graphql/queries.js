@@ -28,6 +28,7 @@ export const getBookOrder = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename
@@ -160,6 +161,7 @@ export const getCartItem = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename
@@ -199,6 +201,7 @@ export const getBook = /* GraphQL */ `
       author
       featured
       price
+      pdf
       orders {
         nextToken
         __typename
@@ -224,6 +227,7 @@ export const listBooks = /* GraphQL */ `
         author
         featured
         price
+        pdf
         createdAt
         updatedAt
         __typename

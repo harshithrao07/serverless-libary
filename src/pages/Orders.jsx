@@ -99,7 +99,7 @@ const Orders = () => {
             <div className="flex flex-col justify-center ml-5">
               <span className="text-sm md:text-lg lg:text-xl font-bold">{item.title}&nbsp;<span className="font-bold lg:text-xl text-md md:text-lg italic text-primary-200">x{item.quantity}</span></span>
               <span className="text-sm text-gray-700">{item.author}</span>
-              <span className="text-sm md:text-lg lg:text-xl">${item.price}</span>
+              <span className="text-sm md:text-lg lg:text-xl">₹{item.price}</span>
             </div>
           </div>
         ))
@@ -107,9 +107,9 @@ const Orders = () => {
         const renderBillComponent = items.map((item, index) => (
           <div key={index} className="grid grid-cols-4 lg:grid-cols-5 py-1 md:px-0 border-t border-black">
             <span className="text-xs md:text-md lg:text-lg lg:col-span-2">{item.title}</span>
-            <span className="text-xs md:text-md lg:text-lg flex justify-center">${item.price}</span>
+            <span className="text-xs md:text-md lg:text-lg flex justify-center">₹{item.price}</span>
             <span className="text-xs md:text-md lg:text-lg flex justify-center">x{item.quantity}</span>
-            <span className="text-xs md:text-md lg:text-lg flex justify-center">${item.price * item.quantity}</span>
+            <span className="text-xs md:text-md lg:text-lg flex justify-center">₹{item.price * item.quantity}</span>
           </div>
         ))
 
@@ -132,7 +132,7 @@ const Orders = () => {
                   {renderBillComponent}
                 </div>
                 <div className="grid grid-cols-4 lg:grid-cols-5 border-t border-black">
-                  <span className="col-start-4 lg:col-start-5 text-lg lg:text-2xl font-bold text-center border-b border-black">${total}</span>
+                  <span className="col-start-4 lg:col-start-5 text-lg lg:text-2xl font-bold text-center border-b border-black">₹{total}</span>
                 </div>
               </div>
             </div>
