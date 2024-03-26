@@ -30,10 +30,7 @@ export const createBook = /* GraphQL */ `
       author
       featured
       price
-      orders {
-        nextToken
-        __typename
-      }
+      pdf
       createdAt
       updatedAt
       __typename

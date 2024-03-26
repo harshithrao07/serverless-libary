@@ -7,6 +7,8 @@ import "@aws-amplify/ui-react/styles.css";
 import { createBook } from "../api/mutations";
 import config from "../amplifyconfiguration.json";
 import { useNavigate } from "react-router-dom";
+import AllOrdersAdmin from "../components/AllOrdersAdmin";
+import AllUsersAdmin from "../components/AllUsersAdmin";
 
 const {
   aws_user_files_s3_bucket_region: region,
@@ -46,7 +48,7 @@ const Admin = () => {
         query: createBook,
         variables: { input: bookDetails },
       });
-      console.log(res)
+      console.log(res);
       setBookDetails({
         title: "",
         description: "",
@@ -55,9 +57,9 @@ const Admin = () => {
         price: "",
         pdf: "",
       });
-      setImage("")
-      setPDF("")
-      alert("You have successfully uploaded a book.")
+      setImage("");
+      setPDF("");
+      alert("You have successfully uploaded a book.");
     } catch (err) {
       console.log("error creating todo:", err);
     }
@@ -92,11 +94,19 @@ const Admin = () => {
       });
 
       setImage(url);
-      setBookDetails({ ...bookDetails, image: url });
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    setBookDetails((prevBookDetails) => ({
+      ...prevBookDetails,
+      image: image,
+      pdf: pdf,
+    }));
+    console.log(bookDetails)
+  }, [image, pdf]);
 
   const handlePdfUpload = async (e) => {
     e.preventDefault();
@@ -106,28 +116,23 @@ const Admin = () => {
     const key = `pdf/${uuidv4()}${name}.${extension}`;
     const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`;
 
+    console.log("PDF URL:", url); // Debugging statement
+
     try {
-      // Upload the file to s3 with public access level.
-      async function toUpload() {
-        const res = await uploadData({
-          key: key,
-          data: file,
-          options: {
-            accessLevel: "public",
-          },
-        }).result;
-      }
-
-      await toUpload();
-
-      // Retrieve the uploaded file to display
-      const pdf = await getProperties({
+      // Upload the file to S3 with public access level.
+      await uploadData({
         key: key,
-        options: { accessLevel: "public" },
+        data: file,
+        options: {
+          accessLevel: "public",
+        },
       });
 
+      console.log("PDF uploaded successfully"); // Debugging statement
+
+      // Set the PDF URL in the state
       setPDF(url);
-      setBookDetails({ ...bookDetails, pdf: url });
+
     } catch (err) {
       console.log(err);
     }
@@ -256,6 +261,8 @@ const Admin = () => {
           </div>
         </form>
       </section>
+      <AllUsersAdmin />
+      <AllOrdersAdmin />
     </section>
   );
 };
