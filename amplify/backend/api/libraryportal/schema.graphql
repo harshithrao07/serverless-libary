@@ -16,6 +16,7 @@ type Book @model(subscriptions: null)
   author: String
   featured: Boolean
   price: Float
+  pdf: String
   orders: [BookOrder] @connection(keyName: "byBook", fields: ["id"])
 }
 

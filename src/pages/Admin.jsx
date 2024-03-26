@@ -148,6 +148,9 @@ const Admin = () => {
                     </div>
                 </form>
             </section>
+            <div>
+                <span>Current Active Members</span>
+            </div>
         </section>
     )
 }
