@@ -33,7 +33,6 @@ export const listOrders = /* GraphQL */ `
         total
         createdAt
         updatedAt
-        customer
         __typename
       }
       nextToken

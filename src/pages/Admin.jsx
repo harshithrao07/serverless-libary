@@ -105,7 +105,6 @@ const Admin = () => {
       image: image,
       pdf: pdf,
     }));
-    console.log(bookDetails)
   }, [image, pdf]);
 
   const handlePdfUpload = async (e) => {

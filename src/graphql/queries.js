@@ -8,6 +8,7 @@ export const getBookOrder = /* GraphQL */ `
       book_id
       order_id
       quantity
+      customer
       order {
         id
         user
@@ -15,7 +16,6 @@ export const getBookOrder = /* GraphQL */ `
         total
         createdAt
         updatedAt
-        customer
         __typename
       }
       createdAt
@@ -33,7 +33,6 @@ export const getBookOrder = /* GraphQL */ `
         updatedAt
         __typename
       }
-      customer
       __typename
     }
   }
@@ -50,9 +49,9 @@ export const listBookOrders = /* GraphQL */ `
         book_id
         order_id
         quantity
+        customer
         createdAt
         updatedAt
-        customer
         __typename
       }
       nextToken
@@ -73,7 +72,6 @@ export const getOrder = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      customer
       __typename
     }
   }
@@ -92,7 +90,6 @@ export const listOrders = /* GraphQL */ `
         total
         createdAt
         updatedAt
-        customer
         __typename
       }
       nextToken

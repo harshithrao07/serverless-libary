@@ -98,6 +98,7 @@ export const createBookOrder = /* GraphQL */ `
       book_id
       order_id
       quantity
+      customer
       order {
         id
         user
@@ -105,7 +106,6 @@ export const createBookOrder = /* GraphQL */ `
         total
         createdAt
         updatedAt
-        customer
         __typename
       }
       createdAt
@@ -123,7 +123,6 @@ export const createBookOrder = /* GraphQL */ `
         updatedAt
         __typename
       }
-      customer
       __typename
     }
   }
@@ -138,6 +137,7 @@ export const updateBookOrder = /* GraphQL */ `
       book_id
       order_id
       quantity
+      customer
       order {
         id
         user
@@ -145,7 +145,6 @@ export const updateBookOrder = /* GraphQL */ `
         total
         createdAt
         updatedAt
-        customer
         __typename
       }
       createdAt
@@ -163,7 +162,6 @@ export const updateBookOrder = /* GraphQL */ `
         updatedAt
         __typename
       }
-      customer
       __typename
     }
   }
@@ -178,6 +176,7 @@ export const deleteBookOrder = /* GraphQL */ `
       book_id
       order_id
       quantity
+      customer
       order {
         id
         user
@@ -185,7 +184,6 @@ export const deleteBookOrder = /* GraphQL */ `
         total
         createdAt
         updatedAt
-        customer
         __typename
       }
       createdAt
@@ -203,7 +201,6 @@ export const deleteBookOrder = /* GraphQL */ `
         updatedAt
         __typename
       }
-      customer
       __typename
     }
   }
@@ -224,7 +221,6 @@ export const createOrder = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      customer
       __typename
     }
   }
@@ -245,7 +241,6 @@ export const updateOrder = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      customer
       __typename
     }
   }
@@ -266,7 +261,6 @@ export const deleteOrder = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      customer
       __typename
     }
   }

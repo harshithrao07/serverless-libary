@@ -77,7 +77,7 @@ exports.handler = async (event) => {
       }
     } else {
       console.log('No customer found with the given email.');
-      return "NO"
+      return "Not Active"
     }
   } catch (error) {
     console.error('An error occurred:', error);

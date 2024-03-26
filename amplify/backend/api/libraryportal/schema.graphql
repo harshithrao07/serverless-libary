@@ -24,9 +24,10 @@ type BookOrder @model(subscriptions: null)
   @key(name: "byBook", fields: ["book_id", "order_id"])
   @key(name: "byOrder", fields: ["order_id", "book_id"])
   @auth(
-    rules: [
-      # allow admins to create bookorders for customers by using customer email in lambda
-      { allow: owner, identityClaim: "email", ownerField: "customer" }
+    rules:  [
+      # allow all authenticated users to view books
+      { allow: private, operations: [read] }
+      # allow admins to view orders
       { allow: groups, groups: ["Admin"] }
     ]
   ) {
@@ -34,6 +35,7 @@ type BookOrder @model(subscriptions: null)
   book_id: ID!
   order_id: ID!
   quantity: Int!
+  customer: String!
   book: Book @connection(fields: ["book_id"])
   order: Order @connection(fields: ["order_id"])
 }
@@ -41,8 +43,8 @@ type BookOrder @model(subscriptions: null)
 type Order @model(subscriptions: null)
   @auth(
     rules: [
-      # only owner can see his orders
-      { allow: owner, identityClaim: "email", ownerField: "customer" }
+      # allow all authenticated users to view books
+      { allow: private, operations: [read] }
       # allow admins to view orders
       { allow: groups, groups: ["Admin"] }
     ]

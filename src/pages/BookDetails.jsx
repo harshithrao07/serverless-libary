@@ -94,7 +94,7 @@ const BookDetails = () => {
                   </div>
                 </span>
               </button>
-              {localStorage.getItem("status") && (
+              {localStorage.getItem("status") == "Active" && (
                 <Link to={pdf}>
                   <Button className="bg-green-500">
                     <svg

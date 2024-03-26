@@ -25,14 +25,6 @@ const Header = () => {
       setuserId(localStorage.getItem("userId"));
     }
 
-    if (
-      localStorage.getItem("username") == null &&
-      localStorage.getItem("userId") == null &&
-      localStorage.getItem("cartId") == null
-    ) {
-      localStorage.clear()
-      navigate("/auth?message=You have to login first");
-    }
   }, [location]);
 
   const handleLogOut = async () => {

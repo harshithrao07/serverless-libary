@@ -7,6 +7,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([])
   const client = generateClient()
 
+
   useEffect(() => {
     async function getOrderId() {
       try {
@@ -16,7 +17,7 @@ const Orders = () => {
             filter: {
               user: { eq: localStorage.getItem("username") }
             }
-          }
+          },
         })
 
         const idsFromQuery = res.data.listOrders.items.map(order => order.id);
@@ -46,10 +47,11 @@ const Orders = () => {
               }
             }
           });
+          console.log(res)
           const bookOrders = res.data.listBookOrders.items;
           fetchedOrders.push(bookOrders);
         }
-
+        
         const data = fetchedOrders.map(orders => {
           const orderItems = orders.map(order => ({
             id: order.book.id,
