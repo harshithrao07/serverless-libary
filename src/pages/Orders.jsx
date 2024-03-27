@@ -47,7 +47,6 @@ const Orders = () => {
               }
             }
           });
-          console.log(res)
           const bookOrders = res.data.listBookOrders.items;
           fetchedOrders.push(bookOrders);
         }

@@ -109,8 +109,28 @@ input ProcessOrderInput {
   userId: ID!
 }
 
+type SubscriptionSession {
+  url: String
+  customer: String
+}
+
+type AllUserDetails {
+  email: String!
+  created: String
+}
+
+type AdminFunctionalities {
+  allUsers: [AllUserDetails]
+  subscribedUsers: [String]
+  isAdmin: Boolean
+}
+
 type Mutation {
   processPayment(input: ProcessOrderInput!): String @function(name: "processPayment-${env}")
-  processOrder(input: ProcessOrderInput!): OrderStatus  @function(name: "createOrder-${env}")
-  processSubscriptions: String @function(name: "processSubscriptions-${env}")
+  processOrder(input: ProcessOrderInput!): OrderStatus @function(name: "createOrder-${env}")
+  createSubscriptionPayment(input: String!): SubscriptionSession  @function(name: "createSubscriptionPayment-${env}")
+  processSubscriptions(input: String): String @function(name: "processSubscriptions-${env}")
+  adminFunctionalities: AdminFunctionalities @function(name: "adminFunctionalities-${env}")
 }
+
+

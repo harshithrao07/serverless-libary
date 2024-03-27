@@ -61,8 +61,36 @@
     }
   },
   "function": {
+    "adminFunctionalities": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "libraryportal590f4ae7"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "createOrder": {
       "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "createSubscriptionPayment": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "libraryportal590f4ae7"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -87,6 +115,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_adminFunctionalities_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "adminFunctionalities"
+        }
+      ]
+    },
+    "AMPLIFY_function_adminFunctionalities_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "adminFunctionalities"
+        }
+      ]
+    },
     "AMPLIFY_function_createOrder_deploymentBucketName": {
       "usedBy": [
         {
@@ -100,6 +144,22 @@
         {
           "category": "function",
           "resourceName": "createOrder"
+        }
+      ]
+    },
+    "AMPLIFY_function_createSubscriptionPayment_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createSubscriptionPayment"
+        }
+      ]
+    },
+    "AMPLIFY_function_createSubscriptionPayment_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createSubscriptionPayment"
         }
       ]
     },

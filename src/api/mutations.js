@@ -12,9 +12,30 @@ export const processOrder = /* GraphQL */ `
   }
 `;
 
+export const createSubscriptionPayment = /* GraphQL */ `
+  mutation CreateSubscriptionPayment($input: String!) {
+    createSubscriptionPayment(input: $input){
+      url,
+      customer
+    }
+  }
+`;
+
 export const processSubscriptions = /* GraphQL */ `
-  mutation ProcessSubscriptions {
-    processSubscriptions
+  mutation ProcessSubscriptions($input: String) {
+    processSubscriptions(input: $input)
+  }
+`;
+export const adminFunctionalities = /* GraphQL */ `
+  mutation AdminFunctionalities {
+    adminFunctionalities {
+      allUsers {
+        email
+        created
+      }
+      subscribedUsers
+      isAdmin
+    }
   }
 `;
 export const createBook = /* GraphQL */ `

@@ -29,7 +29,15 @@
         },
         "processSubscriptions": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/processSubscriptions-795870534e736450506a-build.zip"
+          "s3Key": "amplify-builds/processSubscriptions-47334253516562762b59-build.zip"
+        },
+        "adminFunctionalities": {
+          "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
+          "s3Key": "amplify-builds/adminFunctionalities-4d35713951624a646b4e-build.zip"
+        },
+        "createSubscriptionPayment": {
+          "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
+          "s3Key": "amplify-builds/createSubscriptionPayment-62327869575344315361-build.zip"
         }
       },
       "api": {

@@ -1,42 +1,69 @@
-import React, { useEffect } from 'react';
-import { loadStripe } from "@stripe/stripe-js";
+import React, { useEffect, useState } from "react";
+import { generateClient } from "aws-amplify/api";
+import { adminFunctionalities } from "../api/mutations";
+import { useNavigate } from "react-router-dom";
 
 const AllUsersAdmin = () => {
-  
-  async function fetchSubscribedUser() {
-    try {
-      const stripe = await loadStripe('pk_test_51ORYlmSFkgnN12a3jUDD29GFe3SyBlHRBNuxCgKY46njWUO5AcPt9bO03KfI6AqnRPlEEgjacRiqCt07QnjE2veE00uDyYzs0D');
+  const client = generateClient();
+  const [isAdmin, setIsAdmin] = useState(true);
+  const [allUsers, setAllUsers] = useState([]);
+  const [subscribedUsers, setSubscribedUsers] = useState([]);
+  const navigate = useNavigate();
 
-      if (!stripe) {
-        throw new Error('Failed to load Stripe.');
-      }
+  async function fetchUsers() {
+    const res = await client.graphql({
+      query: adminFunctionalities,
+    });
 
-      const subscriptions = await stripe.subscriptions.list({
-        status: 'active', // Make sure 'active' is a string here
-      });
+    const data = res.data.adminFunctionalities;
 
-      console.log(subscriptions);
-    } catch (error) {
-      console.error('Error fetching subscribed users:', error);
-    }
+    setIsAdmin(data.isAdmin);
+    setAllUsers(data.allUsers || []);
+    setSubscribedUsers(data.subscribedUsers || []);
   }
 
   useEffect(() => {
-    fetchSubscribedUser();
+    fetchUsers();
   }, []);
 
+  useEffect(() => {
+    if (!isAdmin) {
+      navigate("/");
+    }
+  }, [isAdmin]);
+
   return (
-    <div>
-      <header className="form-header">
-        <span className="text-4xl font-bold text-primary-200 mt-3">
-          All Users
-        </span>
+    <div className="container mx-auto px-4 py-8">
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-primary-200">Users</h1>
       </header>
-      <div>
-        {/* You can render subscription data here if needed */}
-      </div>
+      {allUsers.length > 0 && (
+        <div>
+          <h2 className="text-xl font-bold mb-4">All Users:</h2>
+          <ul>
+            {allUsers.map((user, index) => (
+              <li key={index} className="mb-2">
+                <span className="text-lg font-medium">{user.email}</span>
+                <span className="text-gray-500 ml-2">{new Date(user.created).toLocaleString()}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {subscribedUsers.length > 0 && (
+        <div>
+          <h2 className="text-xl font-bold my-4">Subscribed Users:</h2>
+          <ul>
+            {subscribedUsers.map((user, index) => (
+              <li key={index} className="mb-2">
+                <span className="text-lg font-medium">{user}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default AllUsersAdmin;

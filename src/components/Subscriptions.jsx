@@ -1,52 +1,57 @@
-import { loadStripe } from "@stripe/stripe-js";
 import { generateClient } from "aws-amplify/api";
-import { processSubscriptions } from '../api/mutations';
-
-import React, { useEffect } from 'react'
+import {
+  createSubscriptionPayment,
+  processSubscriptions,
+} from "../api/mutations";
+import React, { useEffect, useState } from "react";
 
 export default function Subscriptions() {
-  const userId = localStorage.getItem('userId')
-
-  const client = generateClient()
-  const status = localStorage.getItem("status")
+  const userId = localStorage.getItem("userId");
+  const client = generateClient();
+  const [status, setStatus] = useState("Not Active")
 
   useEffect(() => {
     async function checkMembership() {
-      const res = await client.graphql({
-        query: processSubscriptions
-      })
-
-      localStorage.setItem("status", res.data.processSubscriptions)
+      let res
+      if (localStorage.getItem("customer")) {
+        res = await client.graphql({
+          query: processSubscriptions,
+          variables: {
+            input: localStorage.getItem("customer"),
+          },
+        });
+      } else {
+        res = await client.graphql({
+          query: processSubscriptions
+        });
+      }
+      console.log(res);
+      localStorage.setItem("status", res.data.processSubscriptions);
+      setStatus(res.data.processSubscriptions)
     }
 
-    checkMembership()
-  }, [])
+    checkMembership();
+  }, []);
 
-  const handleClick = async e => {
-    const stripe = await loadStripe('pk_test_51ORYlmSFkgnN12a3jUDD29GFe3SyBlHRBNuxCgKY46njWUO5AcPt9bO03KfI6AqnRPlEEgjacRiqCt07QnjE2veE00uDyYzs0D')
-
-    const { error } = await stripe.redirectToCheckout({
-        lineItems: [{
-            price: 'price_1Ow4HFSFkgnN12a3HZtJvy6f',
-            quantity: 1
-        }],
-        clientReferenceId: userId,
-        mode: 'subscription',
-        successUrl: `http://localhost:5173/subscription-success/${userId}`,
-        cancelUrl: `http://localhost:5173/user/${userId}`
-    })
-  }
+  const handleClick = async (e) => {
+    const res = await client.graphql({
+      query: createSubscriptionPayment,
+      variables: {
+        input: userId,
+      },
+    });
+    const data = res.data.createSubscriptionPayment;
+    localStorage.setItem("customer", data.customer);
+    window.location.replace(data.url);
+  };
 
   return (
     <div className="mt-1 md:mt-3 pb-1">
-      {
-        status == "Active" ?
+      {status == "active" ? (
         <span className="">Active Member</span>
-        :
-        <button onClick={handleClick}>
-            Get Membership Access
-        </button>
-      }
+      ) : (
+        <button onClick={handleClick}>Get Membership Access</button>
+      )}
     </div>
-  )
+  );
 }

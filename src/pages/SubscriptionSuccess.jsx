@@ -10,7 +10,10 @@ const SubscriptionSuccess = () => {
   useEffect(() => {
     async function checkMembership() {
       const res = await client.graphql({
-        query: processSubscriptions
+        query: processSubscriptions,
+        variables: {
+          input: localStorage.getItem("customer")
+        }
       })
 
       localStorage.setItem("status", res.data.processSubscriptions)

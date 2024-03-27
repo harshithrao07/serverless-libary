@@ -15,7 +15,7 @@ const BookDetails = () => {
     return book.id === id;
   });
 
-  console.log(book)
+  console.log(book);
 
   if (!book) {
     return <h3>Loading...</h3>;
@@ -46,9 +46,9 @@ const BookDetails = () => {
               <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
             </svg>
           </Link>
-          {/* {searchParams.get("redirectTo") ? <Link className="text-black hover:text-orange-400" to={searchParams.get("redirectTo")}>Cart</Link> : <Link to="/books" className="hover:text-orange-400 text-black">
+          <Link to="/books" className="hover:text-primary-100 text-black">
             Books
-          </Link>} */}
+          </Link>
           <Link className="text-primary-100 break-words">{title}</Link>
         </Breadcrumbs>
         <div className="grid grid-cols-1 lg:grid-cols-2 md:p-5 lg:p-0">
@@ -72,7 +72,9 @@ const BookDetails = () => {
             <div className="flex flex-col md:flex-row mt-5 lg:mt-10 items-center md:justify-around lg:justify-evenly">
               <button
                 onClick={handleClick}
-                className={`flex md:px-7 mt-5 lg:mt-0 lg:py-0 justify-center w-full ${localStorage.getItem("status") && "md:w-fit"} rounded-md h-full bg-primary-100 text-white font-bold text-sm items-center`}
+                className={`flex md:px-7 mt-5 lg:mt-0 lg:py-0 justify-center w-full ${
+                  localStorage.getItem("status") == "active" && "md:w-fit"
+                } rounded-md h-full bg-primary-100 text-white font-bold text-sm items-center`}
               >
                 <span>
                   <div className="flex py-3">
@@ -94,7 +96,7 @@ const BookDetails = () => {
                   </div>
                 </span>
               </button>
-              {localStorage.getItem("status") == "Active" && (
+              {localStorage.getItem("status") == "active" && (
                 <Link to={pdf}>
                   <Button className="bg-green-500">
                     <svg

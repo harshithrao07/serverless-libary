@@ -24,7 +24,6 @@ const Header = () => {
       setUsername(localStorage.getItem("username"));
       setuserId(localStorage.getItem("userId"));
     }
-
   }, [location]);
 
   const handleLogOut = async () => {
@@ -120,36 +119,36 @@ const Header = () => {
                     />
                   </svg>
                 </NavLink>
-                <Button className="bg-[#2A2A2A] text-white">
-                  <Link
-                    onClick={() =>
-                      isMobile && setIsOpen((prevState) => !prevState)
-                    }
-                    to="/"
+                <Link
+                  onClick={() =>
+                    isMobile && setIsOpen((prevState) => !prevState)
+                  }
+                  to="/"
+                >
+                  <Button
+                    onClick={handleLogOut}
+                    className="bg-[#2A2A2A] text-white"
                   >
-                    <span
-                      onClick={handleLogOut}
-                      className="font-semibold text-xs cursor-pointer"
-                    >
+                    <span className="font-semibold text-xs cursor-pointer">
                       Log Out
                     </span>
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </div>
             ) : (
               <div className="gap-x-8">
-                <Button className="bg-[#2A2A2A] text-white">
-                  <Link
-                    to="/auth"
-                    onClick={() =>
-                      isMobile && setIsOpen((prevState) => !prevState)
-                    }
-                  >
+                <Link
+                  to="/auth"
+                  onClick={() =>
+                    isMobile && setIsOpen((prevState) => !prevState)
+                  }
+                >
+                  <Button className="bg-[#2A2A2A] text-white">
                     <span className="font-semibold cursor-pointer text-xs">
                       Sign Up
                     </span>
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </div>
             )}
           </div>

@@ -7,12 +7,14 @@ Amplify Params - DO NOT EDIT */
 const { CognitoIdentityServiceProvider } = require("aws-sdk");
 const cognito = new CognitoIdentityServiceProvider();
 const USER_POOL_ID = "ap-south-1_rAVCVKnN3";
-const stripe = require("stripe")("sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv");
+const stripe = require("stripe")(
+  "sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv"
+);
 
 const getUserEmail = async (event) => {
   const params = {
     UserPoolId: USER_POOL_ID,
-    Username: event.identity.claims.username
+    Username: event.identity.claims.username,
   };
   const user = await cognito.adminGetUser(params).promise();
   const { Value: email } = user.UserAttributes.find((attr) => {
@@ -23,18 +25,17 @@ const getUserEmail = async (event) => {
   return email;
 };
 
-
 async function getCustomerIdByEmail(email) {
   try {
     const customers = await stripe.customers.list({ email: email });
     if (customers.data.length > 0) {
       return customers.data[0].id;
     } else {
-      console.log('Customer not found');
+      console.log("Customer not found");
       return null;
     }
   } catch (error) {
-    console.error('Error fetching customer:', error);
+    console.error("Error fetching customer:", error);
     return null;
   }
 }
@@ -42,16 +43,16 @@ async function getCustomerIdByEmail(email) {
 async function listSubscriptionStatusesByCustomerId(customerId) {
   try {
     const subscriptions = await stripe.subscriptions.list({
-      customer: customerId
+      customer: customerId,
     });
     if (subscriptions.data.length > 0) {
       return subscriptions.data[0].status;
     } else {
-      console.log('No subscription found for the customer');
+      console.log("No subscription found for the customer");
       return null;
     }
   } catch (error) {
-    console.error('Error fetching subscription statuses:', error);
+    console.error("Error fetching subscription statuses:", error);
     return null;
   }
 }
@@ -61,25 +62,32 @@ async function listSubscriptionStatusesByCustomerId(customerId) {
  */
 exports.handler = async (event) => {
   const email = await getUserEmail(event);
-  console.log(email)
+  console.log(email);
+  let customerId;
+  if (event.arguments.input) {
+    customerId = event.arguments.input;
+  } else {
+    customerId = await getCustomerIdByEmail(email);
+  }
 
   try {
-    const customerId = await getCustomerIdByEmail(email);
     if (customerId) {
-      console.log('Customer ID:', customerId);
-      const subscriptionStatus = await listSubscriptionStatusesByCustomerId(customerId);
+      console.log("Customer ID:", customerId);
+      const subscriptionStatus = await listSubscriptionStatusesByCustomerId(
+        customerId
+      );
       if (subscriptionStatus) {
-        console.log('Subscription Status:', subscriptionStatus);
-        return subscriptionStatus
+        console.log("Subscription Status:", subscriptionStatus);
+        return subscriptionStatus;
       } else {
-        console.log('No subscription found for the customer.');
-        return "Not Active"
+        console.log("No subscription found for the customer.");
+        return "Not Active";
       }
     } else {
-      console.log('No customer found with the given email.');
-      return "Not Active"
+      console.log("No customer found with the given email.");
+      return "Not Active";
     }
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error("An error occurred:", error);
   }
 };
