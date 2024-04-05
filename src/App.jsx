@@ -20,6 +20,7 @@ import config from './amplifyconfiguration.json';
 import Success from './pages/Success'
 import Subscriptions from './components/Subscriptions'
 import SubscriptionSuccess from './pages/SubscriptionSuccess'
+import About from './pages/About'
 
 Amplify.configure(config);
 
@@ -33,6 +34,7 @@ const App = () => {
           <Route path='books' element={<Books />} />
           <Route path='books/:id' element={<BookDetails />} />
           <Route path='admin' element={<Admin />} />
+          <Route path='about' element={<About />} />
           <Route path='auth' element={<Authentication />} />
           <Route path='user/:id' element={<UserHeader />}>
             <Route index element={<User />} />

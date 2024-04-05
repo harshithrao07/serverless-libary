@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 export default function Subscriptions() {
   const userId = localStorage.getItem("userId");
   const client = generateClient();
-  const [status, setStatus] = useState("Not Active")
+  const [status, setStatus] = useState("")
 
   useEffect(() => {
     async function checkMembership() {
@@ -48,10 +48,10 @@ export default function Subscriptions() {
   return (
     <div className="mt-1 md:mt-3 pb-1">
       {status == "active" ? (
-        <span className="">Active Member</span>
-      ) : (
-        <button onClick={handleClick}>Get Membership Access</button>
-      )}
+        <span className="font-bold border-b-2 border-black">Active Member</span>
+      ) : status == "Not Active" ? (
+        <button onClick={handleClick}><span className="font-bold border-b-2 border-black">Get Membership Access</span></button>
+      ) : (<span className="italic">Loading...</span>)}
     </div>
   );
 }

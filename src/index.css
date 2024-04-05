@@ -16,6 +16,17 @@ body {
   font-family: 'Kumbh Sans', sans-serif;
 }
 
+.bg-image {
+  background-image: url('assets/nitte.png');
+  background-size: cover;
+  background-position: center;
+}
+.about-image {
+  background-image: url('assets/about2.png');
+  background-size: cover;
+  background-position: center; 
+}
+
 /* * {
   margin: 0;
   padding: 0;
