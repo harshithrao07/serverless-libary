@@ -8,11 +8,11 @@ import React, { useEffect, useState } from "react";
 export default function Subscriptions() {
   const userId = localStorage.getItem("userId");
   const client = generateClient();
-  const [status, setStatus] = useState("")
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     async function checkMembership() {
-      let res
+      let res;
       if (localStorage.getItem("customer")) {
         res = await client.graphql({
           query: processSubscriptions,
@@ -22,12 +22,12 @@ export default function Subscriptions() {
         });
       } else {
         res = await client.graphql({
-          query: processSubscriptions
+          query: processSubscriptions,
         });
       }
       console.log(res);
       localStorage.setItem("status", res.data.processSubscriptions);
-      setStatus(res.data.processSubscriptions)
+      setStatus(res.data.processSubscriptions);
     }
 
     checkMembership();
@@ -47,11 +47,30 @@ export default function Subscriptions() {
 
   return (
     <div className="mt-1 md:mt-3 pb-1">
-      {status == "active" ? (
-        <span className="font-bold border-b-2 border-black">Active Member</span>
-      ) : status == "Not Active" ? (
-        <button onClick={handleClick}><span className="font-bold border-b-2 border-black">Get Membership Access</span></button>
-      ) : (<span className="italic">Loading...</span>)}
+      {status === "active" ? (
+        <div>
+          <span className="font-bold rainbow-words text-2xl">
+            Active Member
+          </span>
+          <p className="mt-2 text-sm text-black">
+            You have access to exclusive PDF content. Enjoy the benefits of your
+            membership!
+          </p>
+        </div>
+      ) : status === "Not Active" ? (
+        <div>
+          <button onClick={handleClick} className="focus:outline-none">
+            <span className="font-bold text-2xl transition duration-1000 transform-gpu hover:border-b-2 border-black">
+              Get Membership Access
+            </span>
+          </button>
+          <p className="mt-2 text-black text-sm">
+            Gain access to exclusive PDF content by becoming a member!
+          </p>
+        </div>
+      ) : (
+        <span className="italic">Loading...</span>
+      )}
     </div>
   );
 }

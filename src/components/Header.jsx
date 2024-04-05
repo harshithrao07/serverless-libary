@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { signOut } from "aws-amplify/auth";
-import { Button } from "@aws-amplify/ui-react";
+import { Button } from "@material-tailwind/react";
+
 
 const Header = () => {
   const [username, setUsername] = useState("");
@@ -127,7 +128,7 @@ const Header = () => {
                 >
                   <Button
                     onClick={handleLogOut}
-                    className="bg-[#2A2A2A] text-white"
+                    className="bg-[#2A2A2A] px-4 text-white"
                   >
                     <span className="font-semibold text-xs cursor-pointer">
                       Log Out
@@ -143,7 +144,7 @@ const Header = () => {
                     isMobile && setIsOpen((prevState) => !prevState)
                   }
                 >
-                  <Button className="bg-[#2A2A2A] text-white">
+                  <Button className="bg-[#2A2A2A] px-4 text-white">
                     <span className="font-semibold cursor-pointer text-xs">
                       Sign Up
                     </span>

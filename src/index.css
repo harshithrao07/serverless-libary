@@ -27,6 +27,13 @@ body {
   background-position: center; 
 }
 
+.rainbow-words {
+  background: linear-gradient(to right, #4010a8, #ff00d9, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
 /* * {
   margin: 0;
   padding: 0;
