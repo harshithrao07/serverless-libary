@@ -1,14 +1,18 @@
 const { CognitoIdentityServiceProvider } = require("aws-sdk");
 const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 const USER_POOL_ID = "ap-south-1_rAVCVKnN3";
-const stripe = require("stripe")("sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv");
+const stripe = require("stripe")(
+  "sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv"
+);
 
 const getUserEmail = async (event) => {
   const params = {
     UserPoolId: USER_POOL_ID,
-    Username: event.identity.claims.username
+    Username: event.identity.claims.username,
   };
-  const user = await cognitoIdentityServiceProvider.adminGetUser(params).promise();
+  const user = await cognitoIdentityServiceProvider
+    .adminGetUser(params)
+    .promise();
   const { Value: email } = user.UserAttributes.find((attr) => {
     if (attr.Name === "email") {
       return attr.Value;
@@ -27,7 +31,6 @@ exports.handler = async (event) => {
     const { username } = event.identity.claims;
     const email = await getUserEmail(event);
 
-
     const customer = await stripe.customers.create({
       name: username,
       email: email,
@@ -38,35 +41,35 @@ exports.handler = async (event) => {
         city: "Nitte",
         state: "Udupi",
         country: "IN",
-      }
+      },
     });
 
-    console.log(cartInput)
-    
+    console.log(cartInput);
+
     const { url } = await stripe.checkout.sessions.create({
-      line_items: cartInput.map(item => {
+      line_items: cartInput.map((item) => {
         return {
           price_data: {
             currency: "inr",
             product_data: {
               name: item.title,
-              images: [item.image]
+              images: [item.image],
             },
-            unit_amount: item.price * 100
+            unit_amount: item.price * 100,
           },
           quantity: item.quantity,
-        }
+        };
       }),
       client_reference_id: userId,
       customer: customer.id,
-      mode: 'payment',
+      mode: "payment",
       success_url: `http://localhost:5173/success/${userId}`,
       cancel_url: `http://localhost:5173/user/${userId}`,
     });
 
     return url;
-  } catch (err) {
-    throw new Error(err);
+  } catch (error) {
+    console.error("An error occurred:", error);
+    throw new Error("An error occurred while processing the request.");
   }
-
 };

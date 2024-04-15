@@ -29,7 +29,13 @@ async function getCustomerIdByEmail(email) {
   try {
     const customers = await stripe.customers.list({ email: email });
     if (customers.data.length > 0) {
-      return customers.data[0].id;
+      for (const customer of customers.data) {
+        if (customer.description === "Subscription For Library BookStore") {
+          return customer.id;
+        }
+      }
+      console.log("Subscription not found for Library BookStore");
+      return null;
     } else {
       console.log("Customer not found");
       return null;
@@ -40,11 +46,13 @@ async function getCustomerIdByEmail(email) {
   }
 }
 
+
 async function listSubscriptionStatusesByCustomerId(customerId) {
   try {
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
     });
+
     if (subscriptions.data.length > 0) {
       return subscriptions.data[0].status;
     } else {
@@ -63,12 +71,8 @@ async function listSubscriptionStatusesByCustomerId(customerId) {
 exports.handler = async (event) => {
   const email = await getUserEmail(event);
   console.log(email);
-  let customerId;
-  if (event.arguments.input) {
-    customerId = event.arguments.input;
-  } else {
-    customerId = await getCustomerIdByEmail(email);
-  }
+  const customerId = await getCustomerIdByEmail(email);
+  
 
   try {
     if (customerId) {

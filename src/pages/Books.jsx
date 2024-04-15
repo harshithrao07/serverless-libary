@@ -15,13 +15,13 @@ const Books = () => {
         {books.map(({ image: image, id, title, author, price }) => (
           <Link key={id} to={`/books/${id}`}>
             <div className="p-4">
-              <img src={image} alt={title} className="w-full h-96" />
+              <img src={image} alt={title} className="w-full h-96 object-fit" />
               <div className="my-2 lg:my-3 flex items-center text-xs lg:text-sm">
-                <span className="text-purple-700 font-bold text-sm uppercase">
+                <span className="text-purple-700 font-bold text-md uppercase">
                   {author}
                 </span>
               </div>
-              <div className="flex flex-col py-2 border-t-2 border-primary-200 text-gray-800">
+              <div className="flex flex-col pb-2 border-t-2 border-primary-200 text-gray-800">
                 <span className="text-md font-bold">{title.toUpperCase()}</span>
                 <span className="font-bold text-xl">₹{price}</span>
               </div>

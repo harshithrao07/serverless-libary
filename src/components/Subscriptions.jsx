@@ -12,19 +12,10 @@ export default function Subscriptions() {
 
   useEffect(() => {
     async function checkMembership() {
-      let res;
-      if (localStorage.getItem("customer")) {
-        res = await client.graphql({
-          query: processSubscriptions,
-          variables: {
-            input: localStorage.getItem("customer"),
-          },
-        });
-      } else {
-        res = await client.graphql({
-          query: processSubscriptions,
-        });
-      }
+      const res = await client.graphql({
+        query: processSubscriptions,
+      });
+
       console.log(res);
       localStorage.setItem("status", res.data.processSubscriptions);
       setStatus(res.data.processSubscriptions);

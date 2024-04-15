@@ -124,7 +124,7 @@ const Cart = () => {
                   {renderBillComponent()}
                 </div>
                 <div className="grid grid-cols-4 md:grid-cols-5 border-t border-black px-2 md:px-0">
-                  <span className="col-start-4 md:col-start-5 text-lg md:text-2xl flex justify-center items-center py-2 border-b border-black text-center"><span className="font-bold">${total}</span></span>
+                  <span className="col-start-4 md:col-start-5 text-lg md:text-2xl flex justify-center items-center py-2 border-b border-black text-center"><span className="font-bold">₹{total}</span></span>
                   <div className="flex justify-end lg:justify-center col-span-3 col-start-2 md:col-start-4 lg:col-start-5"><Button className='bg-primary-100 text-white mt-3 w-full rounded-xl' onClick={handlePayment}>Proceed to Checkout</Button></div>
                 </div>
               </div>

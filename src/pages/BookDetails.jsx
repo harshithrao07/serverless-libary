@@ -15,8 +15,6 @@ const BookDetails = () => {
     return book.id === id;
   });
 
-  console.log(book);
-
   if (!book) {
     return <h3>Loading...</h3>;
   }
@@ -73,7 +71,9 @@ const BookDetails = () => {
               <button
                 onClick={handleClick}
                 className={`flex md:px-7 mt-5 lg:mt-0 lg:py-0 justify-center w-full ${
-                  localStorage.getItem("status") == "active" && "md:w-fit"
+                  localStorage.getItem("status") == "active" &&
+                  pdf &&
+                  "md:w-fit"
                 } rounded-md h-full bg-primary-100 text-white font-bold text-sm items-center`}
               >
                 <span>
@@ -96,7 +96,7 @@ const BookDetails = () => {
                   </div>
                 </span>
               </button>
-              {localStorage.getItem("status") == "active" && (
+              {localStorage.getItem("status") == "active" && pdf && (
                 <Link to={pdf}>
                   <Button className="bg-green-500">
                     <svg

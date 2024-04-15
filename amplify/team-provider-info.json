@@ -21,7 +21,7 @@
       "function": {
         "processPayment": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/processPayment-6b656e6a6b466e776637-build.zip"
+          "s3Key": "amplify-builds/processPayment-534b32714578574d715a-build.zip"
         },
         "createOrder": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
@@ -29,7 +29,7 @@
         },
         "processSubscriptions": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/processSubscriptions-47334253516562762b59-build.zip"
+          "s3Key": "amplify-builds/processSubscriptions-686a6c306d366f6c6864-build.zip"
         },
         "adminFunctionalities": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
@@ -44,7 +44,11 @@
         "libraryportal": {}
       },
       "hosting": {
-        "S3AndCloudFront": {}
+        "S3AndCloudFront": {},
+        "amplifyhosting": {
+          "appId": "d3h7yvv3paeq66",
+          "type": "manual"
+        }
       }
     }
   }

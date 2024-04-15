@@ -4,11 +4,12 @@ import { generateClient } from "aws-amplify/api";
 import { uploadData, getProperties } from "aws-amplify/storage";
 import { Button } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { createBook } from "../api/mutations";
+import { adminFunctionalities, createBook } from "../api/mutations";
 import config from "../amplifyconfiguration.json";
 import { useNavigate } from "react-router-dom";
 import AllOrdersAdmin from "../components/AllOrdersAdmin";
 import AllUsersAdmin from "../components/AllUsersAdmin";
+import EditBooks from "../components/EditBooks";
 
 const {
   aws_user_files_s3_bucket_region: region,
@@ -18,7 +19,6 @@ const {
 const Admin = () => {
   const [image, setImage] = useState(null);
   const [pdf, setPDF] = useState(null);
-  const navigate = useNavigate();
   const [bookDetails, setBookDetails] = useState({
     title: "",
     description: "",
@@ -27,6 +27,33 @@ const Admin = () => {
     author: "",
     price: "",
   });
+  const [isAdmin, setIsAdmin] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
+  const [subscribedUsers, setSubscribedUsers] = useState([]);
+  const navigate = useNavigate();
+  const client = generateClient();
+
+  useEffect(() => {
+    async function fetchUsers() {
+      const res = await client.graphql({
+        query: adminFunctionalities,
+      });
+
+      const data = res.data.adminFunctionalities;
+
+      setIsAdmin(data.isAdmin);
+      setAllUsers(data.allUsers || []);
+      setSubscribedUsers(data.subscribedUsers || []);
+    }
+
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    if (isAdmin == false) {
+      navigate("/");
+    }
+  }, [isAdmin]);
 
   useEffect(() => {
     if (
@@ -37,8 +64,6 @@ const Admin = () => {
       navigate("/auth?message=You have to login first");
     }
   }, []);
-
-  const client = generateClient();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +94,8 @@ const Admin = () => {
     e.preventDefault();
     const file = e.target.files[0];
     const extension = file.name.split(".")[1];
-    const name = file.name.split(".")[0];
+    let name = file.name.split(".")[0];
+    name = name.replace(/\s+/g, ""); // Remove all white spaces
     const key = `images/${uuidv4()}${name}.${extension}`;
     const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`;
 
@@ -111,7 +137,8 @@ const Admin = () => {
     e.preventDefault();
     const file = e.target.files[0];
     const extension = file.name.split(".")[1];
-    const name = file.name.split(".")[0];
+    let name = file.name.split(".")[0];
+    name = name.replace(/\s+/g, ""); // Remove all white spaces
     const key = `pdf/${uuidv4()}${name}.${extension}`;
     const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`;
 
@@ -131,7 +158,6 @@ const Admin = () => {
 
       // Set the PDF URL in the state
       setPDF(url);
-
     } catch (err) {
       console.log(err);
     }
@@ -139,129 +165,150 @@ const Admin = () => {
 
   return (
     <section className="admin-wrapper mb-5 my-12 lg:my-20 lg:px-20">
-      <section>
-        <header className="form-header">
-          <span className="text-4xl font-bold text-primary-200 mt-3">
-            Add New Book
-          </span>
-        </header>
-        <form className="form-wrapper" onSubmit={handleSubmit}>
-          <div className="form-image">
-            {image ? (
-              <img className="image-preview" src={image} alt="The Image" />
-            ) : (
-              <div className="flex flex-col">
-                <label>Add the preview of the book</label>
-                <input
-                  type="file"
-                  accept="image/jpg"
-                  onChange={(e) => handleImageUpload(e)}
-                />
+      {isAdmin == true ? (
+        <>
+          <section>
+            <header className="form-header">
+              <span className="text-4xl font-bold text-primary-200 mt-3">
+                Add New Book
+              </span>
+            </header>
+            <form className="form-wrapper" onSubmit={handleSubmit}>
+              <div className="form-image">
+                {image ? (
+                  <img className="image-preview" src={image} alt="The Image" />
+                ) : (
+                  <div className="flex flex-col">
+                    <label>Add the preview of the book</label>
+                    <input
+                      type="file"
+                      accept="image/jpg"
+                      onChange={(e) => handleImageUpload(e)}
+                    />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          <div className="form-fields">
-            <div className="title-form">
-              <p>
-                <label htmlFor="title">Title</label>
-              </p>
-              <p>
-                <input
-                  name="email"
-                  type="title"
-                  value={bookDetails.title}
-                  placeholder="Type the title"
-                  onChange={(e) =>
-                    setBookDetails({ ...bookDetails, title: e.target.value })
-                  }
-                  required
-                />
-              </p>
-            </div>
-            <div className="description-form">
-              <p>
-                <label htmlFor="description">Description</label>
-              </p>
-              <p>
-                <textarea
-                  name="description"
-                  type="text"
-                  rows="8"
-                  value={bookDetails.description}
-                  placeholder="Type the description of the book"
-                  onChange={(e) =>
-                    setBookDetails({
-                      ...bookDetails,
-                      description: e.target.value,
-                    })
-                  }
-                  required
-                />
-              </p>
-            </div>
-            <div className="author-form">
-              <p>
-                <label htmlFor="author">Author</label>
-              </p>
-              <p>
-                <input
-                  name="author"
-                  type="text"
-                  placeholder="Type the author's name"
-                  value={bookDetails.author}
-                  onChange={(e) =>
-                    setBookDetails({ ...bookDetails, author: e.target.value })
-                  }
-                  required
-                />
-              </p>
-            </div>
-            <div className="price-form">
-              <p>
-                <label htmlFor="price">Price (₹)</label>
-                <input
-                  name="price"
-                  type="text"
-                  value={bookDetails.price}
-                  placeholder="What is the Price of the book (INR)"
-                  onChange={(e) =>
-                    setBookDetails({ ...bookDetails, price: e.target.value })
-                  }
-                  required
-                />
-              </p>
-            </div>
-            <div className="featured-form">
-              <p>
-                <label>Featured?</label>
-                <input
-                  type="checkbox"
-                  className="featured-checkbox"
-                  checked={bookDetails.featured}
-                  onChange={() =>
-                    setBookDetails({
-                      ...bookDetails,
-                      featured: !bookDetails.featured,
-                    })
-                  }
-                />
-              </p>
-            </div>
-            <div className="flex flex-col my-3">
-              <label>Add the PDF of the book</label>
-              <input type="file" onChange={(e) => handlePdfUpload(e)} />
-            </div>
-            <div className="submit-form my-3">
-              <Button className="btn" type="submit">
-                Submit
-              </Button>
-            </div>
-          </div>
-        </form>
-      </section>
-      <AllUsersAdmin />
-      <AllOrdersAdmin />
+              <div className="form-fields">
+                <div className="title-form">
+                  <p>
+                    <label htmlFor="title">Title</label>
+                  </p>
+                  <p>
+                    <input
+                      name="email"
+                      type="title"
+                      value={bookDetails.title}
+                      placeholder="Type the title"
+                      onChange={(e) =>
+                        setBookDetails({
+                          ...bookDetails,
+                          title: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </p>
+                </div>
+                <div className="description-form">
+                  <p>
+                    <label htmlFor="description">Description</label>
+                  </p>
+                  <p>
+                    <textarea
+                      name="description"
+                      type="text"
+                      rows="8"
+                      value={bookDetails.description}
+                      placeholder="Type the description of the book"
+                      onChange={(e) =>
+                        setBookDetails({
+                          ...bookDetails,
+                          description: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </p>
+                </div>
+                <div className="author-form">
+                  <p>
+                    <label htmlFor="author">Author</label>
+                  </p>
+                  <p>
+                    <input
+                      name="author"
+                      type="text"
+                      placeholder="Type the author's name"
+                      value={bookDetails.author}
+                      onChange={(e) =>
+                        setBookDetails({
+                          ...bookDetails,
+                          author: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </p>
+                </div>
+                <div className="price-form">
+                  <p>
+                    <label htmlFor="price">Price (₹)</label>
+                    <input
+                      name="price"
+                      type="number"
+                      value={bookDetails.price}
+                      placeholder="What is the Price of the book (INR)"
+                      onChange={(e) =>
+                        setBookDetails({
+                          ...bookDetails,
+                          price: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </p>
+                </div>
+                <div className="featured-form">
+                  <p>
+                    <label>Featured?</label>
+                    <input
+                      type="checkbox"
+                      className="featured-checkbox"
+                      checked={bookDetails.featured}
+                      onChange={() =>
+                        setBookDetails({
+                          ...bookDetails,
+                          featured: !bookDetails.featured,
+                        })
+                      }
+                    />
+                  </p>
+                </div>
+                <div className="flex flex-col my-3">
+                  <label>Add the PDF of the book</label>
+                  <input type="file" onChange={(e) => handlePdfUpload(e)} />
+                </div>
+                <div className="submit-form my-3">
+                  <Button className="btn" type="submit">
+                    Submit
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </section>
+          <AllUsersAdmin
+            allUsers={allUsers}
+            subscribedUsers={subscribedUsers}
+          />
+          <AllOrdersAdmin />
+          <EditBooks />
+        </>
+      ) : (
+        <div className="flex justify-center">
+          <span className="text-xl italic">Redirecting...</span>
+        </div>
+      )}
     </section>
   );
 };

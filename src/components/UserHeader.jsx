@@ -11,7 +11,7 @@ const UserHeader = () => {
 
   return (
     <div className="mt-12 lg:mt-16 font-body text-primary-200">
-      <div className="flex flex-col py-5 bg-yellow-300 bg-opacity-50 px-5 lg:px-16">
+      <div className="flex flex-col py-5 bg-orange-300 bg-opacity-50 px-5 lg:px-16">
         <span className="text-2xl md:text-4xl font-bold pb-1">
           Heyy,{" "}
           <span className="text-primary-100 border-b-2 border-primary-100">

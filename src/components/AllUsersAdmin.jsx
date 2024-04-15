@@ -1,36 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { generateClient } from "aws-amplify/api";
-import { adminFunctionalities } from "../api/mutations";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
-const AllUsersAdmin = () => {
-  const client = generateClient();
-  const [isAdmin, setIsAdmin] = useState(true);
-  const [allUsers, setAllUsers] = useState([]);
-  const [subscribedUsers, setSubscribedUsers] = useState([]);
-  const navigate = useNavigate();
-
-  async function fetchUsers() {
-    const res = await client.graphql({
-      query: adminFunctionalities,
-    });
-
-    const data = res.data.adminFunctionalities;
-
-    setIsAdmin(data.isAdmin);
-    setAllUsers(data.allUsers || []);
-    setSubscribedUsers(data.subscribedUsers || []);
-  }
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  useEffect(() => {
-    if (!isAdmin) {
-      navigate("/");
-    }
-  }, [isAdmin]);
+const AllUsersAdmin = ({allUsers, subscribedUsers}) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
