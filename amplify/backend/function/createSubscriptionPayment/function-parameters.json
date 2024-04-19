@@ -9,5 +9,8 @@
       ]
     }
   },
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "secretNames": [
+    "SECRET_STRIPE"
+  ]
 }

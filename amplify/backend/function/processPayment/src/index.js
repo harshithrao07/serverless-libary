@@ -1,9 +1,20 @@
-const { CognitoIdentityServiceProvider } = require("aws-sdk");
-const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
+/*
+Use the following code to retrieve configured secrets from SSM:
+
+const aws = require('aws-sdk');
+
+const { Parameters } = await (new aws.SSM())
+  .getParameters({
+    Names: ["SECRET_STRIPE"].map(secretName => process.env[secretName]),
+    WithDecryption: true,
+  })
+  .promise();
+
+Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
+*/
+const aws = require("aws-sdk");
+const cognitoIdentityServiceProvider = new aws.CognitoIdentityServiceProvider();
 const USER_POOL_ID = "ap-south-1_rAVCVKnN3";
-const stripe = require("stripe")(
-  "sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv"
-);
 
 const getUserEmail = async (event) => {
   const params = {
@@ -30,6 +41,16 @@ exports.handler = async (event) => {
     const { cartInput, userId } = event.arguments.input;
     const { username } = event.identity.claims;
     const email = await getUserEmail(event);
+
+    const { Parameter } = await new aws.SSM()
+      .getParameter({
+        Name: "arn:aws:ssm:ap-south-1:252296902626:parameter/amplify/d3h7yvv3paeq66/dev/AMPLIFY_processPayment_SECRET_STRIPE",
+        WithDecryption: true,
+      })
+      .promise();
+
+
+    const stripe = require("stripe")(Parameter.Value);
 
     const customer = await stripe.customers.create({
       name: username,
@@ -63,8 +84,8 @@ exports.handler = async (event) => {
       client_reference_id: userId,
       customer: customer.id,
       mode: "payment",
-      success_url: `http://localhost:5173/success/${userId}`,
-      cancel_url: `http://localhost:5173/user/${userId}`,
+      success_url: `https://dc4802yfw21du.cloudfront.net/success/${userId}`,
+      cancel_url: `https://dc4802yfw21du.cloudfront.net/user/${userId}`,
     });
 
     return url;

@@ -9,7 +9,6 @@ import config from "../amplifyconfiguration.json";
 import { useNavigate } from "react-router-dom";
 import AllOrdersAdmin from "../components/AllOrdersAdmin";
 import AllUsersAdmin from "../components/AllUsersAdmin";
-import EditBooks from "../components/EditBooks";
 
 const {
   aws_user_files_s3_bucket_region: region,
@@ -302,7 +301,6 @@ const Admin = () => {
             subscribedUsers={subscribedUsers}
           />
           <AllOrdersAdmin />
-          <EditBooks />
         </>
       ) : (
         <div className="flex justify-center">

@@ -1,15 +1,27 @@
+/*
+Use the following code to retrieve configured secrets from SSM:
+
+const aws = require('aws-sdk');
+
+const { Parameters } = await (new aws.SSM())
+  .getParameters({
+    Names: ["SECRET_STRIPE"].map(secretName => process.env[secretName]),
+    WithDecryption: true,
+  })
+  .promise();
+
+Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
+*/
 /* Amplify Params - DO NOT EDIT
     AUTH_LIBRARYPORTAL590F4AE7_USERPOOLID
     ENV
     REGION
 Amplify Params - DO NOT EDIT */
 
-const { CognitoIdentityServiceProvider } = require("aws-sdk");
-const cognito = new CognitoIdentityServiceProvider();
+const aws = require("aws-sdk");
+const cognito = new aws.CognitoIdentityServiceProvider();
 const USER_POOL_ID = "ap-south-1_rAVCVKnN3";
-const stripe = require("stripe")(
-  "sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv"
-);
+let stripe;
 
 const getUserEmail = async (event) => {
   const params = {
@@ -46,7 +58,6 @@ async function getCustomerIdByEmail(email) {
   }
 }
 
-
 async function listSubscriptionStatusesByCustomerId(customerId) {
   try {
     const subscriptions = await stripe.subscriptions.list({
@@ -71,8 +82,17 @@ async function listSubscriptionStatusesByCustomerId(customerId) {
 exports.handler = async (event) => {
   const email = await getUserEmail(event);
   console.log(email);
+
+  const { Parameter } = await new aws.SSM()
+    .getParameter({
+      Name: "arn:aws:ssm:ap-south-1:252296902626:parameter/amplify/d3h7yvv3paeq66/dev/AMPLIFY_processSubscriptions_SECRET_STRIPE",
+      WithDecryption: true,
+    })
+    .promise();
+
+  stripe = require("stripe")(Parameter.Value);
+
   const customerId = await getCustomerIdByEmail(email);
-  
 
   try {
     if (customerId) {

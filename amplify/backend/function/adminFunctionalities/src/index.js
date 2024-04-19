@@ -1,13 +1,33 @@
+/*
+Use the following code to retrieve configured secrets from SSM:
+
+const aws = require('aws-sdk');
+
+const { Parameters } = await (new aws.SSM())
+  .getParameters({
+    Names: ["SECRET_STRIPE"].map(secretName => process.env[secretName]),
+    WithDecryption: true,
+  })
+  .promise();
+
+Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
+*/
 const AWS = require("aws-sdk");
-const stripe = require("stripe")(
-  "sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv"
-);
 const USER_POOL_ID = "ap-south-1_rAVCVKnN3";
 
 const cognito = new AWS.CognitoIdentityServiceProvider();
 
 exports.handler = async (event) => {
   try {
+    const { Parameter } = await new AWS.SSM()
+      .getParameter({
+        Name: "arn:aws:ssm:ap-south-1:252296902626:parameter/amplify/d3h7yvv3paeq66/dev/AMPLIFY_processSubscriptions_SECRET_STRIPE",
+        WithDecryption: true,
+      })
+      .promise();
+
+    const stripe = require("stripe")(Parameter.Value);
+
     // Task 1: Find all users in the user pool
     console.log("Fetching user list...");
     const userListParams = {
@@ -17,7 +37,7 @@ exports.handler = async (event) => {
     const userPoolUsers = await cognito.listUsers(userListParams).promise();
     const allUsers = userPoolUsers.Users.map((user) => ({
       email: user.Username,
-      created: user.UserCreateDate, 
+      created: user.UserCreateDate,
     }));
     console.log("User list fetched:", allUsers);
 

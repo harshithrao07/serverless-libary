@@ -21,7 +21,9 @@
       "function": {
         "processPayment": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/processPayment-534b32714578574d715a-build.zip"
+          "s3Key": "amplify-builds/processPayment-4a77456c58455772336a-build.zip",
+          "stripeSecret": "sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv",
+          "secretsPathAmplifyAppId": "d3h7yvv3paeq66"
         },
         "createOrder": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
@@ -29,15 +31,18 @@
         },
         "processSubscriptions": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/processSubscriptions-686a6c306d366f6c6864-build.zip"
+          "s3Key": "amplify-builds/processSubscriptions-355872647150615a4959-build.zip",
+          "secretsPathAmplifyAppId": "d3h7yvv3paeq66"
         },
         "adminFunctionalities": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/adminFunctionalities-4d35713951624a646b4e-build.zip"
+          "s3Key": "amplify-builds/adminFunctionalities-3232507332664879466b-build.zip",
+          "secretsPathAmplifyAppId": "d3h7yvv3paeq66"
         },
         "createSubscriptionPayment": {
           "deploymentBucketName": "amplify-libraryportal-dev-132202-deployment",
-          "s3Key": "amplify-builds/createSubscriptionPayment-62327869575344315361-build.zip"
+          "s3Key": "amplify-builds/createSubscriptionPayment-794a476c444c4b592b34-build.zip",
+          "secretsPathAmplifyAppId": "d3h7yvv3paeq66"
         }
       },
       "api": {

@@ -1,14 +1,25 @@
+/*
+Use the following code to retrieve configured secrets from SSM:
+
+const aws = require('aws-sdk');
+
+const { Parameters } = await (new aws.SSM())
+  .getParameters({
+    Names: ["SECRET_STRIPE"].map(secretName => process.env[secretName]),
+    WithDecryption: true,
+  })
+  .promise();
+
+Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
+*/
 /* Amplify Params - DO NOT EDIT
 	AUTH_LIBRARYPORTAL590F4AE7_USERPOOLID
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
-const { CognitoIdentityServiceProvider } = require("aws-sdk");
-const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
+const aws = require("aws-sdk");
+const cognitoIdentityServiceProvider = new aws.CognitoIdentityServiceProvider();
 const USER_POOL_ID = "ap-south-1_rAVCVKnN3";
-const stripe = require("stripe")(
-  "sk_test_51ORYlmSFkgnN12a3GzPKjq4IdbZ9qPaZth9qlA94glG1VdFVQ15SkRTQP3JK36A4cOEGsXDEuTnfd3FlXygTbXux00NEIr4DDv"
-);
 
 const getUserEmail = async (event) => {
   const params = {
@@ -35,6 +46,15 @@ exports.handler = async (event) => {
     const { username } = event.identity.claims;
     const email = await getUserEmail(event);
 
+    const { Parameter } = await new aws.SSM()
+      .getParameter({
+        Name: "arn:aws:ssm:ap-south-1:252296902626:parameter/amplify/d3h7yvv3paeq66/dev/AMPLIFY_createSubscriptionPayment_SECRET_STRIPE",
+        WithDecryption: true,
+      })
+      .promise();
+
+    const stripe = require("stripe")(Parameter.Value);
+
     const customerCreation = await stripe.customers.create({
       name: username,
       email: email,
@@ -57,8 +77,8 @@ exports.handler = async (event) => {
       ],
       customer: customerCreation.id,
       mode: "subscription",
-      success_url: `http://localhost:5173/subscription-success/${userId}`,
-      cancel_url: `http://localhost:5173/user/${userId}`,
+      success_url: `https://dc4802yfw21du.cloudfront.net/subscription-success/${userId}`,
+      cancel_url: `https://dc4802yfw21du.cloudfront.net/user/${userId}`,
     });
 
     return { url, customer };
